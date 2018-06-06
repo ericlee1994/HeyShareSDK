@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <Space
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:id="@+id/img_ctrl_status"
+        android:src="@drawable/icon_online"/>
+
+    <TextView
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:id="@+id/txt_ctrl_unjoinname"
+        android:textColor="@color/white_color"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="5"
+            android:background="@color/white_color"
+            android:layout_gravity="center_horizontal"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
+
+    <ImageView
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:src="@drawable/ctrl_img_invite"
+        android:id="@+id/btn_ctrl_invite"/>
+    <Space
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
+
+    <ImageView
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:src="@drawable/ctrl_img_msg"
+        android:id="@+id/btn_ctrl_msg"/>
+    <Space
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
+
+    <ImageView
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:src="@drawable/ctrl_img_delete"
+        android:id="@+id/btn_ctrl_delete"/>
+    <Space
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+</LinearLayout>

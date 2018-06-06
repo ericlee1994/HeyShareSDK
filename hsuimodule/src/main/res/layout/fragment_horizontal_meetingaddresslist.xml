@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/horizontalmeeting_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:clickable="true"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="1"
+        android:background="@drawable/bg_tital"
+        android:orientation="horizontal">
+        <Space 
+            android:layout_width="1px" 
+            android:layout_height="match_parent"
+            android:layout_weight="0.35"/>
+        <ImageView
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/btn_back"
+            android:scaleType="centerInside"/>
+        <TextView
+            android:id="@+id/horizontal_button_cancel"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:text="@string/tital_cancel"
+            android:textColor="@drawable/cancel_color"/>
+        <Space 
+            android:layout_width="1px" 
+            android:layout_height="match_parent"
+            android:layout_weight="1.45"/>
+        <LinearLayout
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3.4"
+            android:background="@drawable/ditu"
+            android:clickable="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/horizontal_meeting_my_groups"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="0.33"
+                android:textColor="@color/white_color"/>
+
+            <TextView
+                android:id="@+id/horizontal_meeting_address_list"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:gravity="center"
+                android:textColor="@color/white_color" />
+
+            <TextView
+                android:id="@+id/horizontal_meeting_organization_structure"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:gravity="center"
+                android:textColor="@color/white_color"/>
+        </LinearLayout>
+        <Space 
+            android:layout_width="1px" 
+            android:layout_height="match_parent"
+            android:layout_weight="1.7"/>
+        <TextView
+            android:id="@+id/horizontal_button_conferencing"
+            android:layout_width="1px" 
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:gravity="center"
+            android:text="@string/sure"
+            android:textColor="@color/white_color" 
+            />
+        <Space 
+            android:layout_width="1px" 
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="8"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:orientation="vertical" >
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="1px"
+                 android:layout_weight="1.5"
+                 android:background="@drawable/search_bar"
+                 android:orientation="horizontal" >
+                 <Space
+                     android:layout_width="1px"
+                     android:layout_height="match_parent"
+                     android:layout_weight="0.13" />
+                 <EditText
+                     android:id="@+id/horizontalmeeting_filter_edit"
+                     android:layout_width="1px"
+                     android:layout_height="match_parent"
+                     android:layout_weight="0.77" 
+                     android:singleLine="true"
+                     android:background="#00000000"
+                     android:textColor="@color/gray_color" />
+                 <Space
+                     android:layout_width="1px"
+                     android:layout_height="match_parent"
+                     android:layout_weight="0.1" />
+            </LinearLayout>
+            <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_color_light"/>
+            <LinearLayout
+                android:id="@+id/HorizontalListMeeting_HorizontalListView_layout"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1"
+                android:background="@drawable/companylow"
+                android:orientation="vertical" >
+
+                <com.shgbit.android.heysharevideo.adapter.HorizontalListView
+                    android:id="@+id/horizontalconferencing_HorizontalListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+             <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="7.5" >
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:orientation="vertical">
+                     <LinearLayout
+                         android:id="@+id/btn_hormeeting_creategroup"
+                         android:layout_width="match_parent"
+                         android:layout_height="1px"
+                         android:layout_weight="2.5"
+                         android:orientation="vertical">
+                         <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="1px"
+                             android:layout_weight="1"
+                             android:background="@color/gray_color_light">
+                         </LinearLayout>
+                         <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="1px"
+                             android:layout_weight="8.5"
+                             android:orientation="horizontal">
+                             <ImageView
+                                 android:layout_width="1px"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="1"
+                                 android:src="@drawable/group_create"
+                                 android:padding="5dp"
+                                 android:layout_marginLeft="3dp"
+                                 android:scaleType="centerInside"/>
+                             <TextView
+                                 android:id="@+id/text_create_hormeeting"
+                                 android:layout_width="1px"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="9"
+                                 android:gravity="center_vertical"
+                                 android:text="@string/creategruop"
+                                 android:textColor="@color/black_color"
+                                 android:layout_marginLeft="10dp" />
+                         </LinearLayout>
+                         <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="1px"
+                             android:layout_weight="1.5"
+                             android:background="@color/gray_color_light">
+                         </LinearLayout>
+
+                     </LinearLayout>
+                     <ListView
+                         android:id="@+id/horizontalconferencing_listview"
+                         android:layout_width="match_parent"
+                         android:layout_height="1px"
+                         android:layout_weight="7.5"
+                         android:dividerHeight="1dp"
+                         android:divider="@color/gray_color_light"
+                         android:listSelector="#00000000"
+                         />
+                 </LinearLayout>
+                
+               <TextView
+                    android:id="@+id/horizontalmeeting_dialog"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/kuang"
+                    android:gravity="center"
+                    android:textColor="#4DA2BB" 
+                    android:visibility="invisible" />
+
+                <com.shgbit.android.heysharevideo.adapter.SideBar
+                    android:id="@+id/horizontalconferencing_sidrbar"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/sidebar" /> 
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/mubg"
+            android:orientation="vertical" >
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="1">
+                <Space 
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+                <ImageView
+                     android:id="@+id/horizontal_selected_title"
+                     android:layout_width="1px"
+                     android:layout_height="match_parent"
+                     android:layout_weight="6"
+                     android:src="@drawable/muback"
+                     android:scaleType="centerInside"
+                     />
+                <Space 
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+               <ScrollView
+                     android:layout_width="match_parent"
+                     android:layout_height="1px"
+                     android:layout_weight="9"
+                     android:background="@drawable/mubg"
+                     android:scrollbars="none">
+                    <TextView
+                        android:id="@+id/horizontal_selected_person"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/white_color" />
+               </ScrollView>
+            
+            
+          
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

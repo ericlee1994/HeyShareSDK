@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/meeting_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:clickable="true"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="0.73"
+        android:background="@drawable/bg_tital"
+        android:orientation="horizontal" >
+        
+        <Space 
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"/>
+
+        <TextView
+            android:id="@+id/button_cancel"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:clickable="true"
+            android:gravity="center"
+            android:drawableLeft="@drawable/btn_back"
+            android:text="@string/tital_cancel"
+            android:textColor="@drawable/cancel_color" />
+        <Space
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5" />
+
+        <LinearLayout
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="5"
+            android:background="@drawable/ditu"
+            android:clickable="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/meeting_my_groups"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="0.33"
+                android:textColor="@color/white_color"/>
+
+            <TextView
+                android:id="@+id/meeting_address_list"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:gravity="center"
+                android:textColor="@color/white_color"/>
+
+            <TextView
+                android:id="@+id/meeting_organization_structure"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:gravity="center"
+                android:textColor="@color/white_color"/>
+        </LinearLayout>
+        <Space
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5" />
+
+        <TextView
+            android:id="@+id/button_conferencing"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1.7"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/sure"
+            android:singleLine="true"
+            android:textColor="@color/white_color" />
+        <Space 
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="0.73"
+        android:background="@drawable/search_bar"
+        android:orientation="horizontal" >
+        
+        <Space
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.13" />
+
+        <EditText
+            android:id="@+id/meeting_filter_edit"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.77" 
+            android:singleLine="true"
+            android:background="#00000000"
+            android:textColor="@color/gray_color" />
+        <Space
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1" />
+    </LinearLayout>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_color_light"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="8.54"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_weight="9"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/Meeting_HorizontalListView_layout"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="0.7"
+                android:background="@drawable/companylow"
+                android:orientation="vertical" >
+
+                <com.shgbit.android.heysharevideo.adapter.HorizontalListView
+                    android:id="@+id/meeting_recycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="9.3" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/btn_meeting_creategroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_weight="1.5"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_weight="1"
+                            android:background="@color/gray_color_light">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_weight="8.5"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:src="@drawable/group_create"
+                                android:padding="5dp"
+                                android:layout_marginLeft="3dp"
+                                android:scaleType="centerInside"/>
+                            <TextView
+                                android:id="@+id/text_create_meeting"
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:layout_weight="9"
+                                android:gravity="center_vertical"
+                                android:text="@string/creategruop"
+                                android:textColor="@color/black_color"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_weight="1.5"
+                            android:background="@color/gray_color_light">
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <ListView
+                        android:id="@+id/meeting_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_weight="8.5"
+                        android:dividerHeight="1dp"
+                        android:divider="@color/gray_color_light"
+                        android:listSelector="#00000000"
+                        />
+                </LinearLayout>
+                
+                <TextView
+                    android:id="@+id/meeting_dialog"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/kuang"
+                    android:gravity="center"
+                    android:textColor="#506AC1" 
+                    android:visibility="invisible" />
+
+                <com.shgbit.android.heysharevideo.adapter.SideBar
+                    android:id="@+id/meeting_sidrbar"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/sidebar" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/selected_layout"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_weight="1"
+            android:background="@drawable/meetingbckg"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/selected_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/selected_user"
+                android:textColor="@color/online_color" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:scrollbars="none" >
+
+                <TextView
+                    android:id="@+id/selected_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/online_color" />
+            </HorizontalScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--  <RelativeLayout
+        android:id="@+id/meeting_reframe"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="8.3" >
+
+        <LinearLayout
+            android:id="@+id/meeting_address"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="0.8"
+                android:background="@drawable/bg_tital3"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/meeting_filter_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/search_bar"
+                    android:paddingLeft="50dp"
+                    android:singleLine="true"
+                    android:textColor="@color/gray_color" />
+            </LinearLayout>
+            
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ListView
+                    android:id="@+id/meeting_address_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null" />
+
+                <TextView
+                    android:id="@+id/meeting_dialog"
+                    android:layout_width="80.0dip"
+                    android:layout_height="80.0dip"
+                    android:layout_gravity="center"
+                    android:background="@drawable/show_head_toast_bg"
+                    android:gravity="center"
+                    android:textColor="#ffffffff"
+                    android:textSize="30.0dip"
+                    android:visibility="invisible" />
+
+                <com.shgbit.android.widget.SideBar
+                    android:id="@+id/meeting_sidebar"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/sidebar" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/meeting_organization"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="0.7"
+                android:background="@drawable/companylow"
+                android:orientation="vertical" >
+
+                <com.shgbit.android.widget.HorizontalListView
+                    android:id="@+id/horizontal_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/conferencing_listview"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="9.3"
+                android:divider="@color/gray_color_light"
+                android:dividerHeight="1dp"
+                android:listSelector="#00000000"
+                android:scrollbars="none" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/meeting_contact"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="0.5"
+                android:background="@drawable/bg_tital3"
+                android:orientation="horizontal" >
+
+                <Space
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5" />
+
+                <TextView
+                    android:id="@+id/meeting_title_name"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:text="@string/contactname"
+                    android:textColor="@color/black_color" />
+
+                <TextView
+                    android:id="@+id/meeting_title_department"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:text="@string/department"
+                    android:textColor="@color/black_color" />
+
+                <TextView
+                    android:id="@+id/meeting_title_status"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:text="@string/status"
+                    android:textColor="@color/black_color" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/meeting_contact_listview"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_weight="9.2"
+                android:divider="@color/gray_color_light"
+                android:dividerHeight="1dp"
+                android:listSelector="#00000000" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="0.9"
+        android:background="@drawable/meetingbckg"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/selected_title"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical"
+            android:text="@string/selected_user"
+            android:textColor="@color/white_color" />
+
+        <HorizontalScrollView
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.8"
+            android:scrollbars="none" >
+
+            <TextView
+                android:id="@+id/selected_person"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/white_color" />
+        </HorizontalScrollView>
+    </LinearLayout>-->
+
+</LinearLayout>

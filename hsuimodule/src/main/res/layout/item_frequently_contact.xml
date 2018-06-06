@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_groupcolor"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/contact_circular_layout"
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:gravity="center" 
+        android:layout_weight="0.8" >
+
+       <ImageView
+           android:id="@+id/contact_childselect"
+           android:layout_width="16dp"
+           android:layout_height="16dp"
+           android:scaleType="centerInside"
+           android:src="@drawable/icon_status_normal" />
+      
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/contact_png"
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:scaleType="centerInside"
+        android:src="@drawable/child_user_offline" />
+
+    <TextView
+        android:id="@+id/contact_num"
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_weight="3.6"
+        android:padding="10dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/contact_deparment"
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_weight="2.8"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/contact_status"
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical" />
+
+</LinearLayout>

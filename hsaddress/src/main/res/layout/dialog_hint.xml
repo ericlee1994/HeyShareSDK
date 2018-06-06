@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llyt_bg_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txt_tital_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:textColor="@color/tital_color" />
+
+    <LinearLayout
+	android:id="@+id/llyt_content_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="5"
+        android:orientation="horizontal" >
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/llyt_pro_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="6"
+                android:visibility="gone" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <ProgressBar
+                        android:id="@+id/progress_dialog"
+                        style="@style/StyleProgressBarMini"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/shape_progressbar_bg" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llyt_name_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="6"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/txt_meetingname1_dialog"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+	                android:gravity="center_vertical|right"
+	                android:text="@string/tital_meetingname"
+                    android:textColor="@color/meetingid_color" 
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/txt_meetingname2_dialog"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5.5"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textColor="@color/meetingname_color" />
+                
+            </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/llyt_id_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="4"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+                
+	            <TextView
+	                android:id="@+id/txt_meetingid1_dialog"
+	                android:layout_width="1dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="2.5"
+	                android:gravity="center_vertical|right"
+	                android:text="@string/tital_meetingid"
+	                android:textColor="@color/meetingid_color"/>
+            
+                <TextView
+                    android:id="@+id/txt_meetingid2_dialog"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5.5"
+                    android:gravity="center"
+                    android:textColor="@color/meetingid_color" />
+
+            </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/llyt_img_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="15"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <Space
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5" />
+                
+                <ImageView
+                    android:id="@+id/img_inviter_dialog"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="6"
+                    android:scaleType="centerInside"/>
+                <Space
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/llyt_inviter_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="4"
+                android:orientation="horizontal">
+                
+	            <TextView
+	                android:id="@+id/txt_meetinginviter1_dialog"
+	                android:layout_width="1dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="2.5"
+	                android:gravity="center_vertical|right"
+	                android:text="@string/tital_meetinghost"
+	                android:textColor="@color/meetingid_color"
+	                android:visibility="gone"/>
+            
+                <TextView
+                    android:id="@+id/txt_meetinginviter2_dialog"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5.5"
+                    android:gravity="center"
+                    android:textColor="@color/meetingname_color" />
+
+            </LinearLayout>
+                        
+            <LinearLayout
+                android:id="@+id/llyt_time_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="4"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+                
+	            <TextView
+	                android:id="@+id/txt_meetingtime1_dialog"
+	                android:layout_width="1dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="2.5"
+	                android:gravity="center_vertical|right"
+	                android:text="@string/tital_meetingtime"
+	                android:textColor="@color/meetingid_color"/>
+            
+                <TextView
+                    android:id="@+id/txt_meetingtime2_dialog"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5.5"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/meetingid_color" />
+
+            </LinearLayout>
+          
+            <LinearLayout
+                android:id="@+id/llyt_num_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="4"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                
+	            <TextView
+	                android:id="@+id/txt_meetingnum1_dialog"
+	                android:layout_width="1dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="2.5"
+	                android:gravity="center_vertical|right"
+	                android:text="@string/tital_meetingnum"
+	                android:textColor="@color/meetingid_color"/>
+			
+                <TextView
+                    android:id="@+id/txt_meetingnum2_dialog"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5.5"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/meetingid_color" />
+
+            </LinearLayout>
+                        
+            <LinearLayout
+                android:id="@+id/llyt_member_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="11"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+                
+	            <TextView
+	                android:id="@+id/txt_meetingmember1_dialog"
+	                android:layout_width="1dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="2.5"
+	                android:gravity="right"
+	                android:text="@string/tital_meetingmember"
+	                android:textColor="@color/meetingid_color"/>
+            
+	            <TextView
+	                android:id="@+id/txt_meetingmember2_dialog"
+	                android:layout_width="1dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="5.5"
+	                android:maxLines="3"
+	                android:ellipsize="end"
+	                android:textColor="@color/meetingid_color" />
+
+            </LinearLayout>
+                        
+        </LinearLayout>
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llyt_btn_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1.5"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/txt_end_ok_dialog"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/btn_end_ok"
+            android:gravity="center"
+            android:textColor="@color/white_color" />
+
+        <Space
+            android:id="@+id/space_dialog"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="horizontal" />
+
+        <TextView
+            android:id="@+id/txt_cancle_dialog"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/btn_cancle"
+            android:gravity="center"
+            android:textColor="@color/btn_cancel_color" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Space
+	android:id="@+id/space_bottom_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1.5" />
+
+</LinearLayout>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">汇易享</string>
+  <string name="hint_user">用户名</string>
+  <string name="hint_pass">密码</string>
+  <string name="mode_gesture">手势登录</string>
+  <string name="mode_handwrite">密码登录</string>
+  <string name="datastyle_xingqiyi">星期一</string>
+  <string name="datestyle_zhouyi">周一</string>
+  <string name="search_tip">搜 索 人 员</string>
+  <string name="selected">已选择(0)</string>
+  <string name="all">全部(0)</string>
+  <string name="meeting">即时会议</string>
+  <string name="search_hint">搜 索 人 员</string>
+  <string name="arr_today">今日安排</string>
+  <string name="arr_week">一周安排</string>
+  <string name="tital_time">召开时间</string>
+  <string name="tital_theme">主题</string>
+  <string name="tital_date">会议日期</string>
+  <string name="tital_start">开始时间</string>
+  <string name="tital_end">结束时间</string>
+  <string name="tital_member">成员</string>
+  <string name="tital_host">发起人</string>
+  <string name="tital_message">消息</string>
+  <string name="tital_contact">我的群组</string>
+  <string name="tital_addresslist">通讯录</string>
+  <string name="tital_organization">组织架构</string>
+  <string name="tital_my">我</string>
+  <string name="tital_meetingid">会议编号：</string>
+  <string name="tital_meetingname">会议名称：</string>
+  <string name="tital_meetingtime">会议时间：</string>
+  <string name="tital_meetinghost">发起人员：</string>
+  <string name="tital_meetingnum">参会人数：</string>
+  <string name="tital_meetingmember">参会人员：</string>
+  <string name="tital_inviter">邀请人</string>
+  <string name="tital_invite">会议邀请</string>
+  <string name="tital_accept">接受</string>
+  <string name="tital_refuse">拒绝</string>
+  <string name="tital_tip">提示</string>
+  <string name="tital_cancel">取消</string>
+  <string name="tital_save">保存模板</string>
+  <string name="tital_ok">确定</string>
+  <string name="tital_conferencing">即时会议</string>
+  <string name="settings">设置</string>
+  <string name="hint_settings">请输入服务器地址</string>
+  <string name="person_busy">忙碌</string>
+  <string name="person_online">在线</string>
+  <string name="person_gone">离线</string>
+  <string name="selected_user">已选择：</string>
+  <string name="sure">确定</string>
+  <string name="toast">该用户不在线,无法邀请其入会！</string>
+  <string name="toast_add">没有选择与会人员！</string>
+  <string name="settings_savemode">开启省流量模式</string>
+  <string name="aboutus">关于我们</string>
+  <string name="aboutus_version">For Android</string>
+  <string name="aboutus_scan">扫描二维码，您的朋友也可以下载</string>
+  <string name="aboutus_copyright">上海金桥信息股份有限公司 版权所有\nCopyright © 2017 SHGBIT All Rights Reserved.</string>
+  <string name="tip_savemode">若开启，视频通话将以普通质量传输，以节省流量</string>
+  <string name="setserver">设置服务器</string>
+  <string name="defultserver">恢复默认值</string>
+  <string name="modify">修改</string>
+  <string name="dele">删除</string>
+  <string name="reserve">预约</string>
+  <string name="exitlogin">退出登录</string>
+  <string name="calling">正在呼叫...</string>
+  <string name="creating">正在创建会议...</string>
+  <string name="collect">收藏</string>
+  <string name="cancle_collext">取消收藏</string>
+  <string name="tital_templet">模板</string>
+  
+  <string name="company">公司</string>
+  <string name="department">部门</string>
+  <string name="second_department">二级部门</string>
+  <string name="phone">手机</string>
+  <string name="contactname">姓名</string>
+  <string name="status">状态</string>
+
+  <string name="creategruop">创建群组</string>
+  <string name="revisegruopname">修改群名称</string>
+  <string name="group_contact">常用联系人</string>
+  <string name="delete_member">删除此成员</string>
+  <string name="delete_group">删除此群组</string>
+  <string name="rename_group">重命名此群组</string>
+  <string name="add_number">添加成员</string>
+  <string name="select_operation">选择</string>
+  <string name="no_member">群组无成员</string>
+  <string name="group_delete">删除</string>
+
+  <string name="ok_cgroup">创建群组成功</string>
+  <string name="false_cgroup">创建群组失败</string>
+  <string name="ok_dgroup">删除群组成功</string>
+  <string name="false_dgroup">删除群组失败</string>
+  <string name="ok_ugroup">更新群组成功</string>
+  <string name="false_ugroup">更新群组失败</string>
+  <string name="ok_amember">添加成员成功</string>
+  <string name="false_amember">添加成员失败</string>
+  <string name="ok_dmember">删除成员成功</string>
+  <string name="false_dmember">删除成员失败</string>
+    
+  <string name="reservemeeting">预约会议</string>
+  <string name="modifymeeting">修改会议</string>
+  
+  <string name="item_tital_msg">系统提示</string>
+  <string name="item_content_msg1">邀请您加入</string>
+  <string name="item_content_msg2">点击进入会议</string>
+  <string name="no_message">您还没有消息</string>
+  <string name="msg_host">发起人：</string>
+  <string name="msg_meetingname">会议名称：</string>
+  <string name="delete">删除消息</string>
+  <string name="delete_all">确定删除全部消息吗？</string>
+
+  <string name="service">http://www.shgbitcloud.com:4005</string>
+  <string name="client_agent">android</string>
+  <string name="tital_version">软件升级</string>
+  <string name="content_version">发现新版本，请下载更新</string>
+  <string name="update">更新</string>
+  
+  <string name="download_start">开始下载文件</string>
+  <string name="downloading">正在下载新版本</string>
+  <string name="download_complete">下载完成，请点击安装</string>
+  <string name="download_success">下载成功</string>
+  <string name="download_fail">下载失败</string>
+  <string name="hotfix_service_fail">获取热修复服务器地址失败！</string>
+  
+  <string name="tital_log">上传日志</string>
+  <string name="content_log">上传该日志文件预计需要</string>
+  <string name="content_log2">流量，确定要上传吗？</string>
+  <string name="log_not_exist">日志文件过大或文件不存在！</string>
+  <string name="zip_fail">日志提取失败，请检查权限！</string>
+
+  <string name="help">使用帮助</string>
+  <string name="watch_live">查看直播</string>
+  <string name="live">直播</string>
+  <string name="update_version">检测更新</string>
+  <string name="tip_update">若开启，应用启动时会自动检测新版本</string>
+
+  <string name="content_zip1">正在压缩文件，</string>
+  <string name="content_zip2">请稍等...</string>
+  <string name="upload_success">上传成功</string>
+  <string name="upload_fail">上传失败，是否要重新上传？</string>
+  
+  <string name="accept_dialog">进入</string>
+  <string name="exit_dialog">退出</string>
+  
+  <string name="notification_ticker">新消息</string>
+  <string name="notification_content1">条</string>
+  <string name="notification_content2">邀请您加入</string>
+  <string name="notification_content3">个联系人邀请您加入会议</string>
+  
+  <string name="error_back">错误反馈</string>
+  <string name="error_content">程序发生错误，建议上传日志，对您造成的不便敬请谅解！</string>
+  <string name="meeting_null">会议已结束或会议不存在！</string>
+  
+  <string name="setpwd">修改密码</string>
+  <string name="pwd_input">请输入密码</string>
+  <string name="pwd_old">旧密码:</string>
+  <string name="pwd_new">新密码:</string>
+  <string name="pwd_confirm">确认密码:</string>
+  <string name="pwd_et_old">请输入旧密码</string>
+  <string name="pwd_et_new">密码只能为6位数字</string>
+  <string name="pwd_et_confirm">确认新密码</string>
+  <string name="pwd_btn">修改</string>
+  
+  <string name="invalid_meeting">无效的会议，不能入会！</string>
+  
+  <string name="content_permission">需要以下权限</string>
+  <string name="exit_permission">退出</string>
+  <string name="goset_permission">去设置</string>
+  <string name="permission_agree">权限通过</string>
+  <string name="permission_phone"> 电话, </string>
+  <string name="permission_camera"> 相机, </string>
+  <string name="permission_storage"> 存储, </string>
+  <string name="permission_audio"> 录音 </string>
+  
+    <!-- 九宫格解锁 -->
+    <string name="lockscreen_access_pattern_start">"开始绘制图案"</string>
+    <string name="lockscreen_access_pattern_cleared">"图案已清除"</string>
+    <string name="lockscreen_access_pattern_cell_added">"已添加单元格"</string>
+    <string name="lockscreen_access_pattern_detected">"图案绘制完成"</string>
+    
+    <!-- 提示 -->
+    <string name="tips_1">请输入用户名和密码</string>
+    <string name="tips_2">登陆失败：</string>
+    <string name="tips_3">创建会议失败：</string>
+    <string name="tips_4">加入会议失败：</string>
+    <string name="tips_5">预约会议失败：</string>
+    <string name="tips_6">预约会议成功！</string>
+    <string name="tips_7">删除会议失败：</string>
+    <string name="tips_8">删除会议成功！</string>
+    <string name="tips_9">更新会议失败：</string>
+    <string name="tips_10">更新会议成功！</string>
+    <string name="tips_11">邀请成功！</string>
+    <string name="tips_12">邀请失败：</string>
+    <string name="tips_13">开启云桌面成功！</string>
+    <string name="tips_14">开启云桌面失败：</string>
+    <string name="tips_15">关闭云桌面成功！</string>
+    <string name="tips_16">关闭云桌面失败：</string>
+    <string name="tips_17">服务器地址设置不符合规范！</string>
+    <string name="tips_18">提示：服务器修改后，应用将会自动重启！</string>
+    <string name="tips_19">该账户已在其他终端登录！</string>
+    <string name="tips_20">视频会议组件初始化异常！</string>
+    <string name="tips_21">无法选择自己！</string>
+    <string name="tips_22">确定要退出会议吗？</string>
+    <string name="tips_23">确定退出程序吗？</string>
+    <string name="tips_24">你的账号已在其他终端上登录！</string>
+    <string name="tips_25">会议未开始！</string>
+    <string name="tips_26">无法与自己开会！</string>
+    <string name="tips_27">旧密码错误！</string>
+    <string name="tips_28">密码修改失败！</string>
+    <string name="tips_29">密码修改成功！</string>
+    <string name="tips_30">请输入密码</string>
+    <string name="tips_31">密码为6位数字</string>
+    <string name="tips_32">请再次确认新密码</string>
+    <string name="tips_33">对不起，您的邀请暂时无人接听，请稍后再邀请！</string>
+    <string name="tips_34">该用户拒绝进入会议，请稍后再邀请！</string>
+    <string name="tips_35">收藏成功！</string>
+    <string name="tips_36">收藏失败！</string>
+    <string name="tips_37">已设为常用联系人！</string>
+    <string name="tips_38">已取消常用联系人！</string>
+    <string name="tips_39">发送消息给参会人员</string>
+    <string name="tips_40">未知错误！</string>
+    <string name="tips_41">如果退出会议，将终止录像，是否退出？</string>
+    <string name="tips_42">服务器超时！</string>
+    <string name="tips_43">再按一次退出程序</string>
+    <string name="tips_44">当前没有保存的模板，请先保存一个模板！</string>
+    <string name="tips_45">麦克风已静音</string>
+    <string name="tips_46">您的应用已经是最新的了哦~</string>
+
+    <!-- 小鱼 -->
+    <string name="computer">的共享桌面</string>
+    <string name="close_camera">用户摄像头未开启</string>
+    <string name="voice_mode">语音模式</string>
+    <string name="no_signal">正在努力加载视频</string>
+    <string name="network_limit">视频带宽不足</string>
+    <string name="content_prepare">桌面共享准备中</string>
+    <string name="error_meeting">该会议不存在</string>
+    <string name="unknown_reason">未知错误</string>
+    <string name="disconnect">连接超时，请重新连接！</string>
+    <string name="reconnect">重连</string>
+    <string name="member">参会人数：</string>
+    <string name="busy">对方正忙</string>
+    <string name="inviting">正在邀请中...</string>
+    <string name="timeout">邀请超时</string>
+    <string name="conference_id">会议号： </string>
+    <string name="meeting_time">会议时间</string>
+    <string name="meeting_name">会议名称： </string>
+    <string name="error_state">会议状态已经无法操作</string>
+
+    <string name="popup_joined"> 入会人员 </string>
+    <string name="popup_refuse"> 未入会人员 </string>
+    <string name="txt_add_person"> 添加人员 </string>
+    <string name="txt_show_person"> 参会人员 </string>
+    <string name="txt_ban_mic"> 打开话筒 </string>
+    <string name="txt_ban_mic_pre"> 关闭话筒 </string>
+    <string name="txt_voice_mode"> 关闭视频 </string>
+    <string name="txt_voice_mode_pre"> 打开视频 </string>
+    <string name="txt_switch_camera"> 转换镜头 </string>
+    <string name="txt_display_mode"> 切换模式 </string>
+    <string name="txt_hangup"> 离开会议 </string>
+
+
+    <string name="menue_push">精准推送</string>
+    <string name="menue_meeting">会议安排</string>
+    <string name="menue_message">消息</string>
+    <string name="menue_address">通讯录</string>
+    <string name="menue_my">我</string>
+    
+    <string-array name="calendar_week">
+	    <item>周日</item>
+	    <item>周一</item>
+	    <item>周二</item>
+	    <item>周三</item>
+	    <item>周四</item>
+	    <item>周五</item>
+	    <item>周六</item>
+	</string-array>
+</resources>

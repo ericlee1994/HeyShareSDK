@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    >
+
+    <LinearLayout
+        android:id="@+id/addresslist_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/addresslist_child"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/organization_square_layout"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:layout_marginTop="26dp"
+            android:focusable="false"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/addresslist_groupselect"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/select_no" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:layout_marginTop="13dp"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/child_group" />
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/addresslist_groupid"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="7.8"
+            android:layout_marginTop="26dp"
+            android:ellipsize="middle"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="@color/online_color" />
+
+        <LinearLayout
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:layout_marginTop="26dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/addresslist_biaozhi"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/jiantou" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addresslist_child"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/organization_circular_layout"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="0.8" >
+
+            <ImageView
+                android:id="@+id/addresslist_childselect"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_status_normal" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/addresslist_childpng"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:scaleType="centerInside"
+            android:src="@drawable/child_user_normal" />
+
+        <TextView
+            android:id="@+id/addresslist_childnum"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="7.1"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray_color" />
+
+        <TextView
+            android:id="@+id/addresslist_childstatus"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/gray_color" />
+
+        <Space
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btn_ban_mic" type="id" />
+    <item name="btn_voice_mode" type="id" />
+    <item name="btn_speech_sounds" type="id" />
+    <item name="btn_switch_camera" type="id" />
+    <item name="btn_openpic" type="id" />
+    <item name="btn_uploadpic" type="id" />
+</resources>
+
