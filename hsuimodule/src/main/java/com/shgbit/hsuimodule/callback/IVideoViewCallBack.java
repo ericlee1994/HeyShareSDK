@@ -1,14 +1,12 @@
 package com.shgbit.hsuimodule.callback;
 
 
-import com.shgbit.hssdk.bean.VI;
+import com.shgbit.hsuimodule.bean.VideoInfo;
 
 /**
  * Created by Eric on 2017/5/24.
  */
 
 public interface IVideoViewCallBack {
-    void backToDefaultMode(VI vi0, VI vi);
-    void closePic();
-    void switchPosition();
+    void backToDefaultMode(VideoInfo vi0, VideoInfo vi);
 }

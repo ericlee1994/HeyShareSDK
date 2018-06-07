@@ -23,4 +23,18 @@ public class VideoRepository implements VideosDataSource {
     }
 
 
+    @Override
+    public void getVideos(LoadVideosCallback loadVideosCallback) {
+
+    }
+
+    @Override
+    public void getInviteUsers(InviteUsersCallback inviteUsersCallback) {
+
+    }
+
+    @Override
+    public void getInviteMeeting(InviteMeetingCallback inviteMeetingCallback) {
+
+    }
 }

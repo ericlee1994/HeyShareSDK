@@ -249,7 +249,7 @@ public class VCDialog extends Dialog {
 			}else if (id == R.id.txt_cancle_dialog){
 				dismiss();
 				if (mCallback != null) {
-					mCallback.onCancle(mType, mContent);
+					mCallback.onCancel(mType, mContent);
 				}
 			}
 //			switch (arg0.getId()) {
@@ -262,7 +262,7 @@ public class VCDialog extends Dialog {
 //			case R.id.txt_cancle_dialog:
 //				dismiss();
 //				if (mCallback != null) {
-//					mCallback.onCancle(mType, mContent);
+//					mCallback.onCancel(mType, mContent);
 //				}
 //				break;
 //			default:
@@ -310,7 +310,7 @@ public class VCDialog extends Dialog {
 		}
 		public interface DialogCallback {
 			void onOk(DialogType type, Object object);
-			void onCancle(DialogType type, Object object);
+			void onCancel(DialogType type, Object object);
 		}
 
 }

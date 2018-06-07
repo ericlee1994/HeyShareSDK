@@ -24,15 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.shgbit.hshttplibrary.json.MeetingRecord;
-import com.shgbit.hssdk.bean.DisplayType;
 import com.shgbit.hssdk.bean.MemberInfo;
-import com.shgbit.hssdk.bean.STATUS;
-import com.shgbit.hssdk.sdk.Common;
+import com.shgbit.hssdk.bean.Status;
 import com.shgbit.hsuimodule.R;
 import com.shgbit.hsuimodule.adapter.GridViewAdapter;
 import com.shgbit.hsuimodule.callback.IPopViewCallBack;
 import com.shgbit.hsuimodule.callback.IVideoRecordCallBack;
+import com.shgbit.hsuimodule.util.Common;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -122,9 +120,9 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
                 if (mShowUser.get(i) == null) {
                     continue;
                 }
-                if (mShowUser.get(i).getmDisplayType() == DisplayType.PICTURE) {
-                    continue;
-                }
+//                if (mShowUser.get(i).getmDisplayType() == DisplayType.PICTURE) {
+//                    continue;
+//                }
                 mScreenList.add(mShowUser.get(i));
             }
         }
@@ -403,7 +401,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
             if (viewid == R.id.gv_view_meeting) {
                 ((IPopViewCallBack) getContext()).onClickPerson(mJoinUser.get(position));
             }else if (viewid == R.id.gv_view_no) {
-                if (mOutUser.get(position).getStatus().equals(STATUS.INVITING) == false) {
+                if (mOutUser.get(position).getStatus().equals(Status.INVITING) == false) {
                     ((IPopViewCallBack) getContext()).onClickPerson(mOutUser.get(position));
                 }
             }
@@ -425,7 +423,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
 
         if (mScreenList != null) {
             for (int i = 0; i < mScreenList.size(); i++) {
-                if (mScreenList.get(i).getStatus().equals(STATUS.JOINED)) {
+                if (mScreenList.get(i).getStatus().equals(Status.JOINED)) {
                     mJoinUser.add(mScreenList.get(i));
                 }
             }
@@ -433,7 +431,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
 
         if (mOtherList != null) {
             for (int i = 0; i < mOtherList.size(); i++) {
-                if (mOtherList.get(i).getStatus().equals(STATUS.JOINED)) {
+                if (mOtherList.get(i).getStatus().equals(Status.JOINED)) {
                     mJoinUser.add(mOtherList.get(i));
                 }
             }

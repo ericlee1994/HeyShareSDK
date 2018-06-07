@@ -776,7 +776,7 @@ public class OldVideoActivity extends BaseActivity implements IPopViewCallBack {
         }
 
         @Override
-        public void onCancle(VCDialog.DialogType type, Object object) {
+        public void onCancel(VCDialog.DialogType type, Object object) {
             Log.i(TAG, "Dialog Cancel");
             try {
                 if (type == VCDialog.DialogType.Invite) {
@@ -801,7 +801,7 @@ public class OldVideoActivity extends BaseActivity implements IPopViewCallBack {
 
                 }
             } catch (Throwable e) {
-                Log.e(TAG, "onCancle Throwable:" + e.toString());
+                Log.e(TAG, "onCancel Throwable:" + e.toString());
             }
         }
     };

@@ -38,6 +38,23 @@ public class MemberInfo {
 		isVideoMute = false;
 	}
 
+	public MemberInfo(MemberInfo info) {
+		isBlank = info.isBlank();
+		isLocal = info.isLocal();
+		id = info.getId();
+		dataSourceID = info.getDataSourceID();
+		participantId = info.getParticipantId();
+		remoteName = info.getRemoteName();
+		isAudioMute = info.isAudioMute();
+		isContent = info.isContent();
+		isVideoMute = info.isVideoMute();
+		userName = info.getUserName();
+		displayName = info.getDisplayName();
+		status= info.getStatus();
+		sessionType = info.getSessionType();
+		net_status = info.getNet_status();
+	}
+
 	public String getId() {
 		return id;
 	}
