@@ -10,6 +10,8 @@ public class Common{
     public static int SCREENWIDTH;
     public static boolean ISMUTEMIC;
     public static boolean ISAUDIOMODE;
+    public static boolean ISMUTECAMERA;
     public static boolean isNemoConnected;
+    public static boolean isRecording;
 }
 

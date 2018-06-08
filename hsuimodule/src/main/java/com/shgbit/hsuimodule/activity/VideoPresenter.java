@@ -1,5 +1,6 @@
 package com.shgbit.hsuimodule.activity;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.ainemo.sdk.otf.NemoSDK;
@@ -7,6 +8,7 @@ import com.shgbit.hssdk.bean.MemberInfo;
 import com.shgbit.hssdk.bean.Status;
 import com.shgbit.hssdk.manager.MeetingInfoManager;
 import com.shgbit.hssdk.sdk.HeyShareSDK;
+import com.shgbit.hsuimodule.R;
 import com.shgbit.hsuimodule.bean.DisplayModeEnum;
 import com.shgbit.hsuimodule.bean.InvitedMeeting;
 import com.shgbit.hsuimodule.bean.User;
@@ -32,6 +34,9 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     private String inviteMeetingId;
     private String otherMeetingInviter;
+
+    private boolean foregroundCamera = true;
+    private int cameraId = 1;
 
     public VideoPresenter(VideoRepository videoRepository, VideoContract.View videoView){
         mVideoView = checkNotNull(videoView, "videoView cannot be null!");
@@ -68,7 +73,8 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     @Override
     public void clickBottomLayout() {
-
+        mVideoView.showBottomLayout();
+        mVideoView.updatePopView(mScreenList, mOtherList, mUnjoinedList);
     }
 
     @Override
@@ -164,6 +170,130 @@ public class VideoPresenter implements VideoContract.Presenter{
                 otherMeetingInviter = invitedMeeting.getInviter();
             }
         });
+    }
+
+    final String BTN_SHOW_PERSON = "btn_show_person";
+    final String BTN_ADD_PERSON = "btn_add_person";
+    final String BTN_BAN_MIC = "btn_ban_mic";
+    final String BTN_CLOSE_CAMERA = "btn_voice_mode";
+    final String BTN_VOICE_MODE = "btn_audio_mode";
+    final String BTN_SWITCH_CAMERA = "btn_switch_camera";
+    final String BTN_DISPLAY_MODE = "btn_display_mode";
+    final String BTN_HANGUP = "btn_hangup";
+    final String BTN_UPLOAD_PIC = "btn_uploadpic";
+    final String BTN_OPEN_PIC = "btn_openpic";
+    final String BTN_PIZHU = "btn_pizhu";
+
+    @Override
+    public void clickMenuBtn(String type) {
+        if (BTN_SHOW_PERSON.equals(type)) {
+            mVideoView.hideBottomLayout();
+        } else {
+            if (BTN_ADD_PERSON.equals(type)) {
+//                Log.i(TAG, "[user operation]click add person");
+//                if (hssdkContactListener != null) {
+//                    boolean flag = hssdkContactListener.contact(mContext, R.id.video_fragment);
+//                    if (!flag){
+//                        syntony.startAddressList(true, "horizontal", false, null, null);
+//                        syntony.setExCallBack(videoCallBack);
+//                    }
+//                }else {
+//                    syntony.startAddressList(true, "horizontal", false, null, null);
+//                    syntony.setExCallBack(videoCallBack);
+//                }
+            } else if (BTN_BAN_MIC.equals(type)) {
+                Log.i(TAG, "[user operation]click muteMic btn:" + Common.ISMUTEMIC);
+
+                Common.ISMUTEMIC = !Common.ISMUTEMIC;
+                HeyShareSDK.getInstance().video().audioMute(Common.ISMUTEMIC);
+            } else if (BTN_CLOSE_CAMERA.equals(type)) {
+                Log.i(TAG, "[user operation]click off camera");
+
+                Common.ISMUTECAMERA = !Common.ISMUTECAMERA;
+                HeyShareSDK.getInstance().video().videoMute(Common.ISMUTECAMERA);
+            } else if (BTN_VOICE_MODE.equals(type)) {
+                Log.i(TAG, "[user operation]click into Voice Mode");
+
+                Common.ISAUDIOMODE = !Common.ISAUDIOMODE;
+                HeyShareSDK.getInstance().video().audioMode(Common.ISAUDIOMODE);
+                if (!Common.ISAUDIOMODE){
+                    HeyShareSDK.getInstance().video().videoMute(Common.ISMUTECAMERA);
+                }
+            } else if (BTN_SWITCH_CAMERA.equals(type)) {
+                Log.i(TAG, "[user operation]click switch camera");
+
+                if (Common.ISMUTECAMERA) {
+                    return;
+                }
+                foregroundCamera = !foregroundCamera;
+                cameraId = foregroundCamera ? 1 : 0;
+                if(cameraId != 0 && cameraId !=1)
+                {
+                    foregroundCamera = !foregroundCamera;
+                    this.cameraId = foregroundCamera ? 1 : 0;
+                }
+                else{
+                    this.cameraId = cameraId;
+                }
+                HeyShareSDK.getInstance().video().switchCamera(cameraId);
+
+            } else if (BTN_DISPLAY_MODE.equals(type)) {
+                Log.i(TAG, "[user operation]click display mode");
+                mVideoView.showModeDialog();
+            } else if (BTN_HANGUP.equals(type)) {
+                Log.i(TAG, "[user operation]click hangup btn");
+                String hangupInfo;
+                if (Common.isRecording){
+                    hangupInfo = "如果退出会议，将终止录像，是否退出？";
+                }else {
+                    hangupInfo = "确定要退出会议吗？";
+                }
+                mVideoView.showDialog(hangupInfo, VCDialog.DialogType.Handup);
+            } else if (BTN_UPLOAD_PIC.equals(type)) {
+//                Log.i(TAG, "[user operation]click upload pic btn");
+//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, 2);
+            } else if (BTN_OPEN_PIC.equals(type)) {
+//                Log.i(TAG, "[user operation]click open pic btn");
+//                openPic = !openPic;
+//                if (openPic) {
+//                    requestCtrl.downloadPic();
+//                } else {
+//                    MeetingInfoManager.getInstance().PicShare(false, null);
+//                }
+            } else if (BTN_PIZHU.equals(type)) {
+//                Log.i(TAG, "[user operation]click pizhu btn");
+//                if (mScreenList.size() > 0 && mScreenList.get(0) != null) {
+//
+//                    clickPizhu = true;
+//                    String codeName = codeName(mScreenList);
+//                    for (int i = 0; i < mScreenList.size(); i++) {
+//                        if ((hasComment && curResource.equals(mScreenList.get(i).getResId())) || !hasComment){
+//                            if (hasComment) {
+//                                MeetingInfoManager.getInstance().CommetModeChange();
+//                            }
+//                            if (lastMode.equals(DISPLAY_MODE.NOT_FULL_ONEFIVE)) {
+//                                lastModeFlag = DISPLAY_MODE.NOT_FULL_ONEFIVE;
+//                                changeMode(DISPLAY_MODE.FULL);
+//
+//                            } else if (lastMode.equals(DISPLAY_MODE.NOT_FULL_QUARTER)) {
+//                                lastModeFlag = DISPLAY_MODE.NOT_FULL_QUARTER;
+//                                changeMode(DISPLAY_MODE.FULL);
+//                            }
+//                            if (hasComment) {
+//                                mUIHandler.sendEmptyMessage(ENTER_COMMENT);
+//                            }
+//                            Log.e(TAG, "share resource :" + codeName(mScreenList));
+//                            requestCtrl.postCmtEnter(codeName);
+//                            break;
+//                        }
+//                    }
+//                }
+            }
+            mVideoView.showBottomLayout();
+        }
     }
 
     @Override

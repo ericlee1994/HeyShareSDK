@@ -27,6 +27,7 @@ import com.shgbit.hsuimodule.R;
 import com.shgbit.hsuimodule.activity.OldVideoActivity;
 import com.shgbit.hsuimodule.bean.DisplayModeEnum;
 import com.shgbit.hsuimodule.bean.VideoCellView;
+import com.shgbit.hsuimodule.bean.VideoInfo;
 import com.shgbit.hsuimodule.callback.IViewLayoutCallBack;
 
 
@@ -75,7 +76,7 @@ public class CellView extends FrameLayout {
 
     private int mPosition;
     private DisplayModeEnum displayModeEnum = DisplayModeEnum.NOT_FULL_ONEFIVE;
-    private VI vi = null;
+    private VideoInfo vi = null;
     private IViewLayoutCallBack iViewLayoutCallBack;
 
     private boolean isNeedInit = true;
@@ -137,7 +138,7 @@ public class CellView extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setInfo(VI v, DisplayModeEnum displayModeEnum) {
+    public void setInfo(VideoInfo v, DisplayModeEnum displayModeEnum) {
         this.displayModeEnum = displayModeEnum;
         if (v != null && vi != null && vi.getmDisplayType() != v.getmDisplayType() || vi == null) {
             isNeedChange = true;

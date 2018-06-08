@@ -91,6 +91,8 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
     private PopupWindow mCtrlPopView;
     private PopupWindow mSharePicPopView;
 
+    private IPopViewCallBack iPopViewCallBack;
+
     public PopupOldView (Context context, boolean micstatus, boolean videostatus , boolean isvoicemode) {
         super(context);
         mContext = context;
@@ -313,7 +315,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
                 if (mSharePicPopView != null) {
                     mSharePicPopView.dismiss();
                 }
-                ((IPopViewCallBack) getContext()).onClickPopBtn();
+                iPopViewCallBack.onClickPopBtn();
                 isShow = true;
                 updateMenueImgAdTxt(2);
             } else if (id == R.id.btn_add_person) {
@@ -323,7 +325,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
                 if (mSharePicPopView != null) {
                     mSharePicPopView.dismiss();
                 }
-                ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_add_person");
+                iPopViewCallBack.onClickMenuBtn("btn_add_person");
                 updateMenueImgAdTxt(1);
             } else if (id == R.id.btn_show_person) {
                 if (mCtrlPopView != null) {
@@ -333,40 +335,40 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
                     mSharePicPopView.dismiss();
                 }
                 updateMenueImgAdTxt(2);
-                ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_show_person");
+                iPopViewCallBack.onClickMenuBtn("btn_show_person");
             } else if (id == R.id.btn_openpic) {
                 if (mSharePicPopView != null) {
                     mSharePicPopView.dismiss();
                 }
-                ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_openpic");
+                iPopViewCallBack.onClickMenuBtn("btn_openpic");
             } else if (id == R.id.btn_uploadpic) {
                 if (mSharePicPopView != null) {
                     mSharePicPopView.dismiss();
                 }
-                ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_openpic");
+                iPopViewCallBack.onClickMenuBtn("btn_openpic");
             } else if (id == R.id.btn_mic || id == R.id.btn_ban_mic) {
-                ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_ban_mic");
+                iPopViewCallBack.onClickMenuBtn("btn_ban_mic");
                 updateMenueImgAdTxt(3);
                 if (mCtrlPopView != null) {
                     mCtrlPopView.dismiss();
                 }
             } else if (id == R.id.btn_close || id == R.id.btn_voice_mode) {
                 if (VoiceMode == false) {
-                    ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_voice_mode");
+                    iPopViewCallBack.onClickMenuBtn("btn_voice_mode");
                     updateMenueImgAdTxt(4);
                     if (mCtrlPopView != null) {
                         mCtrlPopView.dismiss();
                     }
                 }
             } else if(id == R.id.btn_voice || id == R.id.btn_speech_sounds) {
-                ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_audio_mode");
+                iPopViewCallBack.onClickMenuBtn("btn_audio_mode");
                 updateMenueImgAdTxt(7);
                 if (mCtrlPopView != null) {
                     mCtrlPopView.dismiss();
                 }
             } else if(id == R.id.btn_turn || id == R.id.btn_switch_camera) {
                 if(VoiceMode == false){
-                    ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_switch_camera");
+                    iPopViewCallBack.onClickMenuBtn("btn_switch_camera");
                     updateMenueImgAdTxt(5);
                     if (mCtrlPopView != null) {
                         mCtrlPopView.dismiss();
@@ -379,7 +381,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
                 if (mSharePicPopView != null) {
                     mSharePicPopView.dismiss();
                 }
-                ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_display_mode");
+                iPopViewCallBack.onClickMenuBtn("btn_display_mode");
                 updateMenueImgAdTxt(6);
             } else if (id == R.id.btn_hangup) {
                 if (mCtrlPopView != null) {
@@ -388,7 +390,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
                 if (mSharePicPopView != null) {
                     mSharePicPopView.dismiss();
                 }
-                ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_hangup");
+                iPopViewCallBack.onClickMenuBtn("btn_hangup");
             }
         }
     };
@@ -399,10 +401,10 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             int viewid = parent.getId();
             if (viewid == R.id.gv_view_meeting) {
-                ((IPopViewCallBack) getContext()).onClickPerson(mJoinUser.get(position));
+                iPopViewCallBack.onClickPerson(mJoinUser.get(position));
             }else if (viewid == R.id.gv_view_no) {
                 if (mOutUser.get(position).getStatus().equals(Status.INVITING) == false) {
-                    ((IPopViewCallBack) getContext()).onClickPerson(mOutUser.get(position));
+                    iPopViewCallBack.onClickPerson(mOutUser.get(position));
                 }
             }
         }
@@ -787,7 +789,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
     }
 
     public void clickMic(){
-        ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_ban_mic");
+        iPopViewCallBack.onClickMenuBtn("btn_ban_mic");
         updateMenueImgAdTxt(3);
         if (mCtrlPopView != null) {
             mCtrlPopView.dismiss();
@@ -795,7 +797,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
     }
 
     public void clickVideo(){
-        ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_voice_mode");
+        iPopViewCallBack.onClickMenuBtn("btn_voice_mode");
         updateMenueImgAdTxt(4);
         if (mCtrlPopView != null) {
             mCtrlPopView.dismiss();
@@ -803,11 +805,15 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
     }
 
     public void clickAudioMode(){
-        ((IPopViewCallBack) getContext()).onClickMenuBtn("btn_audio_mode");
+        iPopViewCallBack.onClickMenuBtn("btn_audio_mode");
         updateMenueImgAdTxt(7);
         if (mCtrlPopView != null) {
             mCtrlPopView.dismiss();
         }
+    }
+
+    public void setIPopViewCallback(IPopViewCallBack iPopViewCallback){
+        this.iPopViewCallBack = iPopViewCallback;
     }
 
 }

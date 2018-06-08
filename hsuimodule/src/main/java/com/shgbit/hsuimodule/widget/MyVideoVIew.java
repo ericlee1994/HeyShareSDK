@@ -16,6 +16,7 @@ import com.shgbit.hssdk.bean.VI;
 import com.shgbit.hssdk.sdk.HeyShareSDK;
 import com.shgbit.hsuimodule.bean.DisplayModeEnum;
 import com.shgbit.hsuimodule.bean.VideoCellView;
+import com.shgbit.hsuimodule.bean.VideoInfo;
 import com.shgbit.hsuimodule.callback.IVideoViewCallBack;
 import com.shgbit.hsuimodule.callback.IViewLayoutCallBack;
 
@@ -36,7 +37,7 @@ public class MyVideoVIew extends ViewGroup {
     private Context mContext;
     private int displayCount = 6;
     private static ArrayList<CellView> mScreenList;
-    private ArrayList<VI> otherList = new ArrayList<VI>();
+    private ArrayList<VideoInfo> otherList = new ArrayList<>();
     private IVideoViewCallBack iVideoViewCallBack;
     private Handler handler = new Handler();
     private VideoCellView mLocalCellView;
@@ -100,64 +101,6 @@ public class MyVideoVIew extends ViewGroup {
         }
     }
 
-    public void closeLocalMic(boolean hasVoice){
-        if (hasVoice) {
-            for (int i = 0; i < mScreenList.size(); i++) {
-                if (mScreenList.get(i).getVideoInfo() != null
-                        && mScreenList.get(i).getVideoInfo().isLocal()){
-                    mScreenList.get(i).getVideoInfo().setAudioMute(true);
-//                    MeetingInfoManager.getInstance().AudioMute(true);
-                    HeyShareSDK.getInstance().audioMute(true);
-                }
-            }
-        }else {
-            for (int i = 0; i < mScreenList.size(); i++) {
-                if (mScreenList.get(i).getVideoInfo() != null
-                        && mScreenList.get(i).getVideoInfo().isLocal()){
-                    mScreenList.get(i).getVideoInfo().setAudioMute(false);
-//                    MeetingInfoManager.getInstance().AudioMute(false);
-                    HeyShareSDK.getInstance().audioMute(false);
-                }
-            }
-        }
-    }
-
-//    public void setLocalMute(boolean isMute) {
-//        if (isMute){
-//            for (int i = 0; i < mScreenList.size(); i++){
-//                mScreenList.get(i).getVideoInfo().setAudioMode(true);
-//                MeetingInfoManager.getInstance().VideoMute(true);
-//                isInVoiceMode = true;
-//            }
-//        }else {
-//            for (int i = 0; i < mScreenList.size(); i++){
-//                mScreenList.get(i).getVideoInfo().setAudioMode(false);
-//                MeetingInfoManager.getInstance().VideoMute(false);
-//                isInVoiceMode = false;
-//            }
-//        }
-//    }
-
-    public void closeLocalView (boolean isClose) {
-        if (isClose) {
-            for (int i = 0; i < mScreenList.size(); i++){
-                if (mScreenList.get(i).getVideoInfo()!=null && mScreenList.get(i).getVideoInfo().isLocal()){
-//                    mScreenList.get(i).getVideoInfo().setVideoMute(true);
-//                    MeetingInfoManager.getInstance().VideoMute(true);
-                    HeyShareSDK.getInstance().videoMute(true);
-                }
-            }
-        }else {
-            for (int i = 0; i < mScreenList.size(); i++){
-                if (mScreenList.get(i).getVideoInfo()!=null && mScreenList.get(i).getVideoInfo().isLocal()){
-//                    mScreenList.get(i).getVideoInfo().setVideoMute(false);
-//                    MeetingInfoManager.getInstance().VideoMute(false);
-                    HeyShareSDK.getInstance().videoMute(false);
-                }
-            }
-        }
-    }
-
     public void updateViewList(List<MemberInfo> mMember, List<MemberInfo> mOther){
         if (mMember == null){
             return;
@@ -216,9 +159,9 @@ public class MyVideoVIew extends ViewGroup {
                     flag = 0;
                     Log.i(TAG, "mMember.size()=" + mMember.size());
                     for (int i = 0; i < mScreenList.size(); i++){
-                        VI vi = null;
+                        VideoInfo vi = null;
                         if (i < mMember.size()) {
-                            vi = new VI();
+                            vi = new VideoInfo();
                             vi.setParticipantId(mMember.get(i).getParticipantId());
                             vi.setDisplayName(mMember.get(i).getDisplayName());
                             vi.setRemoteName(mMember.get(i).getRemoteName());
@@ -228,14 +171,9 @@ public class MyVideoVIew extends ViewGroup {
                             vi.setVideoMute(mMember.get(i).isVideoMute());
                             vi.setAudioMute(mMember.get(i).isAudioMute());
                             vi.setLocal(mMember.get(i).isLocal());
-                            vi.setBlank(mMember.get(i).isBlank());
                             vi.setDataSourceID(mMember.get(i).getDataSourceID());
                             vi.setId(mMember.get(i).getId());
                             vi.setNet_status(mMember.get(i).getNet_status());
-                            vi.setmDisplayType(mMember.get(i).getmDisplayType());
-                            vi.setmUrls(mMember.get(i).getmUrls());
-                            vi.setmResId(mMember.get(i).getResId());
-                            vi.setComment(mMember.get(i).isComment());
                             vi.setUVC(mMember.get(i).isUvc());
                         }
 
@@ -255,7 +193,7 @@ public class MyVideoVIew extends ViewGroup {
                     List<MemberInfo> mOther = (List<MemberInfo>) msg.obj;
                     otherList.clear();
                     for (int i = 0; i < mOther.size(); i++){
-                        VI vi = new VI();
+                        VideoInfo vi = new VideoInfo();
                         vi.setDataSourceID(mOther.get(i).getDataSourceID());
                         vi.setContent(mOther.get(i).isContent());
                         vi.setDisplayName(mOther.get(i).getDisplayName());
@@ -328,7 +266,7 @@ public class MyVideoVIew extends ViewGroup {
         }
 
         @Override
-        public void backToDefaultMode(VI vi) {
+        public void backToDefaultMode(VideoInfo vi) {
             iVideoViewCallBack.backToDefaultMode(mScreenList.get(0).getVideoInfo(), vi);
         }
     };
