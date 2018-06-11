@@ -3,13 +3,11 @@ package com.shgbit.hssdk.bean;
 public class MemberInfo {
 	//custom
 	private String id;
-	private String userName;//same as id
 	private String displayName;
 	private SessionType sessionType;
 	private Net_Status net_status;
 	private Status status;
 	private boolean isLocal;
-	private boolean isBlank;//?
 	private boolean isUvc;
 
 	//xiaoyu
@@ -22,13 +20,11 @@ public class MemberInfo {
 	
 	public MemberInfo() {
 		id = "";
-		userName = "";
 		displayName = "";
 		sessionType = SessionType.ALL;
 		net_status = Net_Status.NULL;
 		status= null;
 		isLocal = false;
-		isBlank = false;
 		isUvc = false;
 		remoteName = "";
 		dataSourceID = "";
@@ -38,37 +34,12 @@ public class MemberInfo {
 		isVideoMute = false;
 	}
 
-	public MemberInfo(MemberInfo info) {
-		isBlank = info.isBlank();
-		isLocal = info.isLocal();
-		id = info.getId();
-		dataSourceID = info.getDataSourceID();
-		participantId = info.getParticipantId();
-		remoteName = info.getRemoteName();
-		isAudioMute = info.isAudioMute();
-		isContent = info.isContent();
-		isVideoMute = info.isVideoMute();
-		userName = info.getUserName();
-		displayName = info.getDisplayName();
-		status= info.getStatus();
-		sessionType = info.getSessionType();
-		net_status = info.getNet_status();
-	}
-
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public String getDisplayName() {
@@ -109,14 +80,6 @@ public class MemberInfo {
 
 	public void setLocal(boolean local) {
 		isLocal = local;
-	}
-
-	public boolean isBlank() {
-		return isBlank;
-	}
-
-	public void setBlank(boolean blank) {
-		isBlank = blank;
 	}
 
 	public boolean isUvc() {

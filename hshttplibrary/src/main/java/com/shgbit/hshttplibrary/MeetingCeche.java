@@ -182,7 +182,7 @@ public class MeetingCeche {
 	
 	public ArrayList<Meeting> getDayOfMeetings (int year, int month, int day) {
 		if (mMapMeetings == null) {
-			return new ArrayList<Meeting>();
+			return new ArrayList<>();
 		}
 
 		String key = "" + year + month + day;
@@ -190,7 +190,7 @@ public class MeetingCeche {
 		if (mMapMeetings.containsKey(key)) {
 			return mMapMeetings.get(key);
 		} else {
-			return new ArrayList<Meeting>();
+			return new ArrayList<>();
 		}
 	}
 	

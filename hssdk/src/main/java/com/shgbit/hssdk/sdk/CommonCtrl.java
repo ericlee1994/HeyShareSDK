@@ -1,30 +1,54 @@
 package com.shgbit.hssdk.sdk;
 
+import com.shgbit.hshttplibrary.MeetingCeche;
 import com.shgbit.hshttplibrary.ServerInteractManager;
-import com.shgbit.hshttplibrary.json.AddToGroupInfo;
+import com.shgbit.hshttplibrary.callback.ServerInteractCallback;
 import com.shgbit.hshttplibrary.json.BusyMeetingInfo;
 import com.shgbit.hshttplibrary.json.CancelInviteInfo;
-import com.shgbit.hshttplibrary.json.CreateGroupInfo;
 import com.shgbit.hshttplibrary.json.CreateMeetingInfo;
-import com.shgbit.hshttplibrary.json.DeleFrmGroupInfo;
-import com.shgbit.hshttplibrary.json.DeleteGroupInfo;
 import com.shgbit.hshttplibrary.json.DeleteInfo;
-import com.shgbit.hshttplibrary.json.Favorite;
-import com.shgbit.hshttplibrary.json.FrequentContactsPost;
+import com.shgbit.hshttplibrary.json.InviteCancledInfo;
 import com.shgbit.hshttplibrary.json.InviteMeetingInfo;
+import com.shgbit.hshttplibrary.json.InvitedMeeting;
 import com.shgbit.hshttplibrary.json.JoinMeetingInfo;
 import com.shgbit.hshttplibrary.json.LoginInfo;
-import com.shgbit.hshttplibrary.json.LogoutInfo;
+import com.shgbit.hshttplibrary.json.Meeting;
 import com.shgbit.hshttplibrary.json.MeetingRecord;
-import com.shgbit.hshttplibrary.json.QueryGroupInfo;
 import com.shgbit.hshttplibrary.json.QuiteMeetingInfo;
+import com.shgbit.hshttplibrary.json.RefuseInfo;
 import com.shgbit.hshttplibrary.json.ReserveInfo;
 import com.shgbit.hshttplibrary.json.ReserveMeetingInfo;
 import com.shgbit.hshttplibrary.json.SendInfo;
 import com.shgbit.hshttplibrary.json.SyncPidInfo;
-import com.shgbit.hshttplibrary.json.UpdateGroupInfo;
+import com.shgbit.hshttplibrary.json.TimeoutInfo;
+import com.shgbit.hshttplibrary.json.User;
+import com.shgbit.hshttplibrary.json.YunDesktop;
+import com.shgbit.hssdk.callback.HeyshareCallback;
+import com.shgbit.hssdk.callback.InstantMeetingListener;
+import com.shgbit.hssdk.callback.ReserveMeetingListener;
+import com.shgbit.hssdk.tool.JsonUtil;
 
-public class CommonCtrl {
+
+public class CommonCtrl{
+    private static CommonCtrl instance;
+    private HeyshareCallback callback;
+    private ReserveMeetingListener reserveMeetingListener;
+    private InstantMeetingListener instantMeetingListener;
+    private CommonCtrl (){
+        ServerInteractManager.getInstance().setServerInteractCallback(serverInteractCallback);
+    }
+
+    public static void registerInstance () {
+        if (instance == null) {
+            instance = new CommonCtrl();
+        }
+        HeyShareSDK.setCommonCtrl(instance);
+    }
+
+    public void setHeyshareCallback (HeyshareCallback callback) {
+        this.callback = callback;
+    }
+
     public void login (String userName, String userPwd) {
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setUserName(userName);
@@ -33,7 +57,6 @@ public class CommonCtrl {
     }
 
     public void logout () {
-        LogoutInfo logoutInfo = new LogoutInfo();
         ServerInteractManager.getInstance().logout();
     }
 
@@ -51,7 +74,8 @@ public class CommonCtrl {
         ServerInteractManager.getInstance().motifyPwd(loginInfo);
     }
 
-    public void createReserveMeeting (String createUser, String meetingName, String startTime, String endTime, String[] inviteUsers) {
+    public void createReserveMeeting (String createUser, String meetingName, String startTime, String endTime, String[] inviteUsers, ReserveMeetingListener listener) {
+        reserveMeetingListener = listener;
         ReserveInfo reserveMeeting = new ReserveInfo();
         reserveMeeting.setCreatedUser(createUser);
         reserveMeeting.setMeetingName(meetingName);
@@ -61,7 +85,8 @@ public class CommonCtrl {
         ServerInteractManager.getInstance().reserveMeeting(reserveMeeting);
     }
 
-    public void createInstantMeeting(String createUser, String[] inviteUsers) {
+    public void createInstantMeeting(String createUser, String[] inviteUsers, InstantMeetingListener listener) {
+        instantMeetingListener = listener;
         CreateMeetingInfo instantMeeting = new CreateMeetingInfo();
         instantMeeting.setCreatedUser(createUser);
         instantMeeting.setInvitedUsers(inviteUsers);
@@ -143,66 +168,16 @@ public class CommonCtrl {
         return ServerInteractManager.getInstance().getSyncCurrentMeeting();
     }
 
-    public String getContactJsonString() {
-        return ServerInteractManager.getInstance().getAddrString();
+    public com.shgbit.hssdk.json.Meeting[] getDayofMeetings(int year, int month, int day){
+        return JsonUtil.modelAconvertoB(MeetingCeche.getInstance().getDayOfMeetings(year, month, day),com.shgbit.hssdk.json.Meeting[].class);
     }
 
-    public void getFrequentContacts() {
-        ServerInteractManager.getInstance().getContactUser();
+    public boolean checkHasMeeting (int year, int month, int day) {
+        return MeetingCeche.getInstance().checkHasMeeting(year, month, day);
     }
 
-    public void addFrequentContacts(String[] userNames) {
-        FrequentContactsPost frequentContactsPost = new FrequentContactsPost();
-        if (userNames != null) {
-            Favorite[] favorites = new Favorite[userNames.length];
-            for (int i=0; i < userNames.length; i++) {
-                Favorite favorite = new Favorite();
-                favorite.setUserName(userNames[i]);
-                favorites[i] = favorite;
-            }
-            frequentContactsPost.setFavorites(favorites);
-        }
-        ServerInteractManager.getInstance().FrequentContacts(frequentContactsPost);
-    }
-
-    public void createGroup(String groupName, String[] menbers) {
-        CreateGroupInfo createGroupInfo = new CreateGroupInfo();
-        createGroupInfo.setName(groupName);
-        createGroupInfo.setMember(menbers);
-        ServerInteractManager.getInstance().createGroup(createGroupInfo);
-    }
-
-    public void deleteGroup (String groupId) {
-        DeleteGroupInfo deleteGroupInfo = new DeleteGroupInfo();
-        deleteGroupInfo.setId(groupId);
-        ServerInteractManager.getInstance().deleteGroup(deleteGroupInfo);
-    }
-
-    public void updateGroupName(String groupId, String groupName) {
-        UpdateGroupInfo updateGroupInfo = new UpdateGroupInfo();
-        updateGroupInfo.setId(groupId);
-        updateGroupInfo.setName(groupName);
-        ServerInteractManager.getInstance().updateGroup(updateGroupInfo);
-    }
-
-    public void queryGroupById(String groupId) {
-        QueryGroupInfo queryGroupInfo = new QueryGroupInfo();
-        queryGroupInfo.setId(groupId);
-        ServerInteractManager.getInstance().queryGroup(queryGroupInfo);
-    }
-
-    public void addMembersToGroup(String groupId, String[] menbers) {
-        AddToGroupInfo addToGroupInfo = new AddToGroupInfo();
-        addToGroupInfo.setId(groupId);
-        addToGroupInfo.setMembers(menbers);
-        ServerInteractManager.getInstance().addToGroup(addToGroupInfo);
-    }
-
-    public void deleteMembersFromGroup(String groupId, String[] menbers) {
-        DeleFrmGroupInfo deleFrmGroupInfo = new DeleFrmGroupInfo();
-        deleFrmGroupInfo.setId(groupId);
-        deleFrmGroupInfo.setMembers(menbers);
-        ServerInteractManager.getInstance().deleFrmGroup(deleFrmGroupInfo);
+    public  com.shgbit.hssdk.json.Meeting getMeetingById(String meetingId) {
+        return  JsonUtil.modelAconvertoB(MeetingCeche.getInstance().getMeeting(meetingId),com.shgbit.hssdk.json.Meeting.class);
     }
 
     public void startRecord(String meetingId) {
@@ -216,4 +191,185 @@ public class CommonCtrl {
         meetingRecord.setMeetingId(meetingId);
         ServerInteractManager.getInstance().endRecord(meetingRecord);
     }
+
+    private ServerInteractCallback serverInteractCallback = new ServerInteractCallback(){
+        @Override
+        public void onLogin(boolean result, String error, User user) {
+        if (callback != null) {
+            callback.onLogin(result, error, JsonUtil.modelAconvertoB(user, com.shgbit.hssdk.json.User.class));
+        }
+        }
+
+        @Override
+        public void onLogout(boolean result, String error) {
+            if (callback != null) {
+                callback.onLogout(result, error);
+            }
+        }
+
+        @Override
+        public void onCheckPwd(boolean result, String error) {
+            if (callback != null) {
+                callback.onCheckPwd(result, error);
+            }
+        }
+
+        @Override
+        public void onMotifyPwd(boolean result, String error) {
+            if (callback != null) {
+                callback.onMotifyPwd(result, error);
+            }
+        }
+
+        @Override
+        public void onStartYunDesk(boolean result, String error, YunDesktop yunDesktop) {
+
+        }
+
+        @Override
+        public void onEndYunDesk(boolean result, String error, YunDesktop yunDesktop) {
+
+        }
+
+        @Override
+        public void onCreateMeeting(boolean result, String error, Meeting meeting) {
+            if (instantMeetingListener != null) {
+                instantMeetingListener.onCreateMeeting(result, error, JsonUtil.modelAconvertoB(meeting,com.shgbit.hssdk.json.Meeting.class));
+            }
+        }
+
+        @Override
+        public void onJoinMeeting(boolean result, String error) {
+            if (callback != null) {
+                callback.onJoinMeeting(result, error);
+            }
+        }
+
+        @Override
+        public void onInviteMeeting(boolean success, String error) {
+            if (callback != null) {
+                callback.onInviteMeeting(success, error);
+            }
+        }
+
+        @Override
+        public void onKickoutMeeting(boolean success, String error) {
+
+        }
+
+        @Override
+        public void onQuiteMeeting(boolean success, String error) {
+            if (callback != null) {
+                callback.onQuiteMeeting(success, error);
+            }
+        }
+
+        @Override
+        public void onEndMeeting(boolean success, String error) {
+
+        }
+
+        @Override
+        public void onReserveMeeting(boolean success, String error, Meeting meeting) {
+            if (reserveMeetingListener != null) {
+                reserveMeetingListener.onReserveMeeting(success, error, JsonUtil.modelAconvertoB(meeting,com.shgbit.hssdk.json.Meeting.class));
+            }
+        }
+
+        @Override
+        public void onDeleteMeeting(boolean success, String error) {
+            if (callback != null) {
+                callback.onDeleteMeeting(success, error);
+            }
+        }
+
+        @Override
+        public void onUpdateMeeting(boolean success, String error) {
+            if (callback != null) {
+                callback.onUpdateMeeting(success, error);
+            }
+        }
+
+        @Override
+        public void onBusyMeeting(boolean success, String error) {
+            if (callback != null) {
+                callback.onBusyMeeting(success, error);
+            }
+        }
+
+        @Override
+        public void onMeetings() {
+            if (callback != null) {
+                callback.onMeetings();
+            }
+        }
+
+        @Override
+        public void onValidate(boolean result, String err) {
+
+        }
+
+        @Override
+        public void startRecord(boolean result, String err) {
+            if (callback != null) {
+                callback.startRecord(result, err);
+            }
+        }
+
+        @Override
+        public void endRecord(boolean result, String err) {
+            if (callback != null) {
+                callback.endRecord(result, err);
+            }
+        }
+
+        @Override
+        public void eventUserStateChanged(RefuseInfo[] refuseInfos, TimeoutInfo[] timeoutInfos) {
+            if (callback != null) {
+                callback.eventUserStateChanged(JsonUtil.modelAconvertoB(refuseInfos, com.shgbit.hssdk.json.RefuseInfo[].class), JsonUtil.modelAconvertoB(timeoutInfos, com.shgbit.hssdk.json.TimeoutInfo[].class));
+            }
+        }
+
+        @Override
+        public void eventInvitedMeeting(InvitedMeeting meeting) {
+        if (callback != null) {
+            callback.eventInvitedMeeting(JsonUtil.modelAconvertoB(meeting, com.shgbit.hssdk.json.InvitedMeeting.class));
+        }
+        }
+
+        @Override
+        public void eventStartYunDesk(YunDesktop yunDesktop) {
+
+        }
+
+        @Override
+        public void eventEndYunDesk() {
+
+        }
+
+        @Override
+        public void eventStartWhiteBoard() {
+
+        }
+
+        @Override
+        public void eventEndWhiteBoard() {
+
+        }
+
+        @Override
+        public void eventDifferentPlaceLogin() {
+            if (callback != null) {
+                callback.eventDifferentPlaceLogin();
+            }
+        }
+
+        @Override
+        public void eventInvitingCancle(InviteCancledInfo ici) {
+        if (callback != null) {
+            callback.eventInvitingCancle(JsonUtil.modelAconvertoB(ici, com.shgbit.hssdk.json.InviteCancledInfo.class));
+        }
+        }
+    };
+
 }

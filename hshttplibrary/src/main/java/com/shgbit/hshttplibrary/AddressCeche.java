@@ -83,8 +83,8 @@ public class AddressCeche {
         }
     }
 
-    public ArrayList<Group> getGpList(){
-        return mGpList;
+    public Group[] getGpList(){
+        return mGpList.toArray(new Group[0]);
     }
 
     public void setContactUsers(Favorite[] favs){
@@ -160,8 +160,8 @@ public class AddressCeche {
         return mDataList.get(0);
     }
 
-    public ArrayList<UserOrganization> getGeneralContacts () {
-        return mGeneralList;
+    public UserOrganization[] getGeneralContacts () {
+        return mGeneralList.toArray(new UserOrganization[0]);
     }
 
     public String transformName(String username){
@@ -174,8 +174,8 @@ public class AddressCeche {
         return displayName;
     }
 
-    public ArrayList<UserOrganization> getOrderedContacts () {
-        return mOrderedList;
+    public UserOrganization[] getOrderedContacts () {
+        return mOrderedList.toArray(new UserOrganization[0]);
     }
 
     public void resetData () {
@@ -589,7 +589,7 @@ public class AddressCeche {
         return dep;
     }
 
-    public ArrayList<UserOrganization> getGroupType(String groupName){
+    public UserOrganization[] getGroupType(String groupName){
         if (mGroupList == null) {
             mGroupList = new ArrayList<UserOrganization>();
         } else {
@@ -606,7 +606,7 @@ public class AddressCeche {
         }
 
         if (group == null || group.getMembers() == null) {
-            return mGroupList;
+            return mGroupList.toArray(new UserOrganization[0]);
         }
 
         for(int i=0;i<group.getMembers().length;i++){
@@ -616,7 +616,7 @@ public class AddressCeche {
             }
         }
 
-        return mGroupList;
+        return mGroupList.toArray(new UserOrganization[0]);
     }
 
     private  void  ChangeContactStatus(RootOrganization rootOrganization){

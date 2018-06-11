@@ -24,17 +24,29 @@ import java.util.List;
 
 public class VideoCtrl {
     private final String TAG = "VideoCtrl";
+
+    private static final Object lock = new Object();
+    private static volatile VideoCtrl mInstance;
+
     public enum VideoCallState {CONNECTING, CONNECTED, DISCONNECTED}
 
     private VideoStateCallback mCallback;
 
-    private static VideoCtrl mInstance;
-    public static VideoCtrl getInstance () {
+    private VideoCtrl(){}
+
+    public static void registerInstance() {
         if (mInstance == null) {
             mInstance = new VideoCtrl();
         }
-        return mInstance;
+        HeyShareSDK.setVideoCtrl(mInstance);
     }
+
+//    private static VideoCtrl getInstance () {
+//        if (mInstance == null) {
+//            mInstance = new VideoCtrl();
+//        }
+//        return mInstance;
+//    }
 
     protected void initNemo (Context context, XiaoYuConfig config) {
         Log.i(TAG, "nemosdk init starting");
@@ -70,6 +82,9 @@ public class VideoCtrl {
 
     protected void shutdownNemo () {
         NemoSDK.getInstance().shutdown();
+        if (mInstance != null){
+            mInstance = null;
+        }
     }
 
 	public void setVideoStatusCallback (VideoStateCallback callback) {
@@ -78,34 +93,22 @@ public class VideoCtrl {
 
     public void init (String userName){
 		NemoSDK.getInstance().setNemoSDKListener(mNemoSDKListener);
-		MeetingInfoManager.getInstance().setMeetingInfoUpdateListener(mVideoUpdateListener);
-		MeetingInfoManager.getInstance().init(userName);
+		meeting().setMeetingInfoUpdateListener(mVideoUpdateListener);
+		meeting().init(userName);
 	}
 
 	public void finalize (){
 		NemoSDK.getInstance().setNemoSDKListener(null);
-		MeetingInfoManager.getInstance().setMeetingInfoUpdateListener(null);
-		MeetingInfoManager.getInstance().finalize();
+		meeting().setMeetingInfoUpdateListener(null);
+		meeting().finalize();
 	}
 
     public void connect (String userName, String displayName) {
         NemoSDK.getInstance().loginExternalAccount(userName, displayName, mConnectNemoCallback);
     }
 
-    public void joinMeeting(String userName, String meetingId, String meetingPwd){
-        new CommonCtrl().joinMeeting(userName, meetingId, meetingPwd);
-    }
-
-    public void quitMeeting(String userName, String meetingId){
-        new CommonCtrl().quitMeeting(userName, meetingId);
-    }
-
-    public void syncPid(String meetingId){
-        new CommonCtrl().syncPid(meetingId);
-    }
-
     public void resetMeeting(){
-		MeetingInfoManager.getInstance().reset();
+		meeting().reset();
 	}
 
     public void callMeeting (String meetingId, String password) {
@@ -114,10 +117,6 @@ public class VideoCtrl {
 
     public void handupMeeting () {
         NemoSDK.getInstance().hangup();
-    }
-
-    public void cancelInviting (String meetingId, String invitedName) {
-        new CommonCtrl().cancelInviting(meetingId, invitedName);
     }
 
 	public void saveNetMode(boolean isSaveNetMode){
@@ -133,38 +132,38 @@ public class VideoCtrl {
     }
 
     public void screenExchange(MemberInfo m1, MemberInfo m2){
-        MeetingInfoManager.getInstance().screenExchange(m1, m2);
+        meeting().screenExchange(m1, m2);
     }
 
     public void stateChange(String[] users, Status state){
-        MeetingInfoManager.getInstance().stateChange(users, state);
+        meeting().stateChange(users, state);
     }
 
     public void modeChange (int screenNumber) {
-        MeetingInfoManager.getInstance().modeChange(screenNumber);
+        meeting().modeChange(screenNumber);
     }
 
     public void popDown(MemberInfo m){
-        MeetingInfoManager.getInstance().popDown(m);
+        meeting().popDown(m);
     }
 
     public void popUpDown(MemberInfo m){
-        MeetingInfoManager.getInstance().popUpDown(m);
+        meeting().popUpDown(m);
     }
 
     public void audioMute (boolean mute) {
         NemoSDK.getInstance().enableMic(mute, true);
-        MeetingInfoManager.getInstance().audioMute(mute);
+        meeting().audioMute(mute);
     }
 
     public void videoMute (boolean mute) {
         NemoSDK.getInstance().setVideoMute(mute);
-        MeetingInfoManager.getInstance().videoMute(mute);
+        meeting().videoMute(mute);
     }
 
     public void audioMode (boolean audio) {
         NemoSDK.getInstance().switchCallMode(audio);
-        MeetingInfoManager.getInstance().audioMode(audio);
+        meeting().audioMode(audio);
     }
 
     ConnectNemoCallback mConnectNemoCallback = new ConnectNemoCallback() {
@@ -249,7 +248,7 @@ public class VideoCtrl {
 
         @Override
         public void onVideoDataSourceChange(List<VideoInfo> list) {
-            MeetingInfoManager.getInstance().nemoChange(list, NemoSDK.getLocalVideoStreamID());
+            meeting().nemoChange(list, NemoSDK.getLocalVideoStreamID());
         }
 
         @Override
@@ -304,4 +303,16 @@ public class VideoCtrl {
         }
 
     };
+
+    private static MeetingInfoManager meetingInfoManager;
+    private static MeetingInfoManager meeting () {
+        if (meetingInfoManager == null) {
+            MeetingInfoManager.registerInstance();
+        }
+        return meetingInfoManager;
+    }
+
+    public static void setMeetingInfoManager (MeetingInfoManager m) {
+        meetingInfoManager = m;
+    }
 }

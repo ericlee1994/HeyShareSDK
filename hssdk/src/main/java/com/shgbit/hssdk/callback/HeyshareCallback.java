@@ -1,10 +1,11 @@
 package com.shgbit.hssdk.callback;
 
-import com.shgbit.hshttplibrary.json.InviteCancledInfo;
-import com.shgbit.hshttplibrary.json.InvitedMeeting;
-import com.shgbit.hshttplibrary.json.RefuseInfo;
-import com.shgbit.hshttplibrary.json.TimeoutInfo;
-import com.shgbit.hshttplibrary.json.User;
+
+import com.shgbit.hssdk.json.InviteCancledInfo;
+import com.shgbit.hssdk.json.InvitedMeeting;
+import com.shgbit.hssdk.json.RefuseInfo;
+import com.shgbit.hssdk.json.TimeoutInfo;
+import com.shgbit.hssdk.json.User;
 
 public interface HeyshareCallback {
     void onLogin (boolean result, String error, User user);
@@ -18,6 +19,8 @@ public interface HeyshareCallback {
     void onUpdateMeeting(boolean success, String error);
     void onBusyMeeting(boolean success, String error);
     void onMeetings();
+    void startRecord(boolean result, String err);
+    void endRecord(boolean result, String err);
     void eventUserStateChanged(RefuseInfo[] refuseInfos, TimeoutInfo[] timeoutInfos);
     void eventInvitedMeeting(InvitedMeeting meeting);
     void eventDifferentPlaceLogin();

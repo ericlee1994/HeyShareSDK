@@ -28,6 +28,8 @@ public interface ServerInteractCallback {
 	void onBusyMeeting(boolean success, String error);
 	void onMeetings();
 	void onValidate(boolean result, String err);
+	void startRecord(boolean result, String err);
+	void endRecord(boolean result, String err);
 
 	void eventUserStateChanged(RefuseInfo[] refuseInfos, TimeoutInfo[] timeoutInfos);
 	void eventInvitedMeeting(InvitedMeeting meeting);

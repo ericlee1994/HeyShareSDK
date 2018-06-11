@@ -78,7 +78,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
 public class ServerInteractManager {
 	private final String TAG = "ServerInteractManager";
 	private final String SecretKey = "c3230d18-599c-486f-94e4-615921ca5e46";
@@ -123,11 +122,6 @@ public class ServerInteractManager {
 		mInteractCallback = callback;
 	}
 
-	private ServerRecordCallback mRecordCallback;
-	public void setServerRecordCallback (ServerRecordCallback callback) {
-		mRecordCallback = callback;
-	}
-
 	public ServerInteractManager() {
 
 	}
@@ -160,7 +154,6 @@ public class ServerInteractManager {
 			mConfigCallback = null;
 			mInteractCallback = null;
 			mAddressCallback = null;
-			mRecordCallback = null;
 
 			instance = null;
 		} catch (Throwable e) {
@@ -1200,12 +1193,12 @@ public class ServerInteractManager {
 					}
 
 					if (result1 == null || result1.getResult().equalsIgnoreCase("failed") == true) {
-						if (mRecordCallback != null) {
-							mRecordCallback.startRecord(false, result1 == null?"unknow error":result1.getFailedMessage());
+						if (mInteractCallback != null) {
+							mInteractCallback.startRecord(false, result1 == null?"unknow error":result1.getFailedMessage());
 						}
 					} else {
-						if (mRecordCallback != null) {
-							mRecordCallback.startRecord(true, "");
+						if (mInteractCallback != null) {
+							mInteractCallback.startRecord(true, "");
 						}
 					}
 					break;
@@ -1218,12 +1211,12 @@ public class ServerInteractManager {
 					}
 
 					if (result2 == null || result2.getResult().equalsIgnoreCase("failed") == true) {
-						if (mRecordCallback != null) {
-							mRecordCallback.endRecord(false, result2 == null?"unknow error":result2.getFailedMessage());
+						if (mInteractCallback != null) {
+							mInteractCallback.endRecord(false, result2 == null?"unknow error":result2.getFailedMessage());
 						}
 					} else {
-						if (mRecordCallback != null) {
-							mRecordCallback.endRecord(true, "");
+						if (mInteractCallback != null) {
+							mInteractCallback.endRecord(true, "");
 						}
 					}
 					break;

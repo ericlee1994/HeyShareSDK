@@ -14,6 +14,7 @@ import com.shgbit.hssdk.bean.Net_Status;
 import com.shgbit.hssdk.bean.Status;
 import com.shgbit.hssdk.bean.SessionType;
 import com.shgbit.hssdk.callback.VideoUpdateListener;
+import com.shgbit.hssdk.sdk.VideoCtrl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +23,7 @@ import java.util.List;
 public class MeetingInfoManager {
 
 	private String TAG = "MeetingInfoManager";
-	private static MeetingInfoManager mInstance;
+	private static volatile MeetingInfoManager mInstance;
 
 	private boolean mMeetingInfoThreadLoop = false;
 	private MeetingInfoThread mThread;
@@ -57,12 +58,14 @@ public class MeetingInfoManager {
 	private boolean isMemberContent;
 	private boolean isUvc;
 
-	public static MeetingInfoManager getInstance() {
-		if (mInstance == null) {
-			mInstance = new MeetingInfoManager();
-		}
-		return mInstance;
-	}
+	private MeetingInfoManager(){}
+
+//	private static MeetingInfoManager getInstance() {
+//		if (mInstance == null) {
+//			mInstance = new MeetingInfoManager();
+//		}
+//		return mInstance;
+//	}
 
 //	public void destory() {
 //		if (mInstance != null) {
@@ -70,6 +73,14 @@ public class MeetingInfoManager {
 //			mInstance = null;
 //		}
 //	}
+
+	public static void registerInstance() {
+		if (mInstance == null) {
+			mInstance = new MeetingInfoManager();
+		}
+
+		VideoCtrl.setMeetingInfoManager(mInstance);
+	}
 
 	public void init(String userName){
 		Log.i(TAG, "MeetingInfoManager init userName=" + userName);
@@ -261,7 +272,6 @@ public class MeetingInfoManager {
 					if (isMemberInList(mUnjoinedMember,item.getUserName()) == -1){
 						MemberInfo noStatus = new MemberInfo();
 						noStatus.setId(item.getUserName());
-						noStatus.setUserName(item.getUserName());
 						noStatus.setDisplayName(item.getDisplayName());
 						noStatus.setStatus(Status.WAITING);
 						noStatus.setNet_status(Net_Status.NULL);
@@ -274,7 +284,6 @@ public class MeetingInfoManager {
 							isJoin = true;
 							MemberInfo m = new MemberInfo();
 							m.setId(item.getUserName());
-							m.setUserName(item.getUserName());
 							m.setDisplayName(item.getDisplayName());
 							m.setStatus(Status.JOINED);
 							m.setSessionType(SessionType.CONTENTONLY);
@@ -291,7 +300,6 @@ public class MeetingInfoManager {
 							isJoin = true;
 							MemberInfo m = new MemberInfo();
 							m.setId(item.getUserName());
-							m.setUserName(item.getUserName());
 							m.setDisplayName(item.getDisplayName());
 							m.setStatus(Status.JOINED);
 							m.setSessionType(SessionType.MOBILE);
@@ -310,7 +318,6 @@ public class MeetingInfoManager {
 							isJoin = true;
 							MemberInfo m = new MemberInfo();
 							m.setId(item.getUserName());
-							m.setUserName(item.getUserName());
 							m.setDisplayName(item.getDisplayName());
 							m.setStatus(Status.JOINED);
 							m.setSessionType(SessionType.PC);
@@ -330,7 +337,6 @@ public class MeetingInfoManager {
 						if (isMemberInList(mUnjoinedMember,item.getUserName()) == -1){
 							MemberInfo unJoined = new MemberInfo();
 							unJoined.setId(item.getUserName());
-							unJoined.setUserName(item.getUserName());
 							unJoined.setDisplayName(item.getDisplayName());
 //							unJoined.setStatus(changeToStatus(item.getStatus()));
 							unJoined.setStatus(Status.WAITING);
@@ -793,7 +799,6 @@ public class MeetingInfoManager {
 							// not join
 							MemberInfo m = new MemberInfo();
 							m.setId(id);
-							m.setUserName(id);
 							m.setRemoteName(id);
 							m.setDisplayName(getDisplayName(id));
 							m.setStatus(status);
@@ -1249,11 +1254,6 @@ public class MeetingInfoManager {
 		boolean needUpdate = false;
 
 		try {
-
-			if (info.isBlank() != newInfo.isBlank()) {
-				info.setBlank(newInfo.isBlank());
-				needUpdate = true;
-			}
 
 			if (info.isContent() != newInfo.isContent()) {
 				info.setContent(newInfo.isContent());

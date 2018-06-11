@@ -1,11 +1,11 @@
-package com.shgbit.hsuimodule.bean;
+package com.shgbit.hssdk.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.shgbit.hssdk.bean.VideoCell;
+import com.ainemo.sdk.otf.OpenGLTextureView;
 
-public class VideoCellView extends VideoCell {
+public class VideoCellView extends OpenGLTextureView {
     private int participantId;
 
     public VideoCellView(Context context) {

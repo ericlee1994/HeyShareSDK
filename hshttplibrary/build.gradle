@@ -28,4 +28,3 @@ dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
 }
 
-

@@ -156,7 +156,7 @@ public class VideoPresenter implements VideoContract.Presenter{
 //                    mUserInvites = new String[arrayList.size()];
 //                    arrayList.toArray(mUserInvites);
                     mUsers = userName;
-                }
+                 }
             }
         });
     }
@@ -293,6 +293,17 @@ public class VideoPresenter implements VideoContract.Presenter{
 //                }
             }
             mVideoView.showBottomLayout();
+        }
+    }
+
+    @Override
+    public void clickMenuPerson(MemberInfo memberInfo) {
+        if (memberInfo.getStatus().equals(Status.JOINED)) {
+            HeyShareSDK.getInstance().video().popUpDown(memberInfo);
+        }else {
+            String[] user = {memberInfo.getId()};
+            HeyShareSDK.getInstance().inviteUsers(Common.meetingId, user);
+            HeyShareSDK.getInstance().video().stateChange(user, Status.INVITING);
         }
     }
 
