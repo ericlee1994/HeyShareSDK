@@ -22,9 +22,12 @@ import com.shgbit.hsuimodule.bean.DISCONNECT_STATE;
 import com.shgbit.hsuimodule.bean.DisplayModeEnum;
 import com.shgbit.hsuimodule.bean.InvitedMeeting;
 import com.shgbit.hsuimodule.bean.VideoInfo;
+import com.shgbit.hsuimodule.callback.IModeCallBack;
+import com.shgbit.hsuimodule.callback.IPopViewCallBack;
 import com.shgbit.hsuimodule.callback.ITitleCallBack;
 import com.shgbit.hsuimodule.callback.IVideoViewCallBack;
 import com.shgbit.hsuimodule.util.Common;
+import com.shgbit.hsuimodule.widget.ModeDialog;
 import com.shgbit.hsuimodule.widget.MyVideoVIew;
 import com.shgbit.hsuimodule.widget.PopupOldView;
 import com.shgbit.hsuimodule.widget.TitleLayout;
@@ -87,6 +90,7 @@ public class VideoFragment extends Fragment implements VideoContract.View {
     private boolean audioMode = false;
 
     private VCDialog mDialog;
+    private ModeDialog modeDialog;
 
     public static VideoFragment newInstance() {
         return new VideoFragment();
@@ -152,6 +156,13 @@ public class VideoFragment extends Fragment implements VideoContract.View {
                     }
                     showDialog(mHangupWarn, VCDialog.DialogType.Handup);
                     break;
+                case HIDE_HIDE_LAYOUY:
+                    if (popupView != null) {
+                        popupView.setVisibility(View.INVISIBLE);
+                        popupView.dismissPopupView();
+                    }
+                    mBottomLayout.setVisibility(View.VISIBLE);
+                    break;
             }
         }
     };
@@ -174,7 +185,8 @@ public class VideoFragment extends Fragment implements VideoContract.View {
                 || displayModeEnum.equals(DisplayModeEnum.NOT_FULL_QUARTER)) {
             mTopLayout = new TitleLayout(getContext());
             mBottomLayout = new LinearLayout(getContext());
-            popupView = new PopupOldView(getContext(), muteMic, muteCamera, isAudioMode);
+            popupView = new PopupOldView(getContext(), muteMic, muteCamera, isAudioMode, mPresenter);
+            popupView.setIPopViewCallback(iPopViewCallBack);
             videoView = new MyVideoVIew(getContext(), displayModeEnum);
 
 
@@ -228,7 +240,8 @@ public class VideoFragment extends Fragment implements VideoContract.View {
             mWholeLayout.addView(videoView);
         } else if (displayModeEnum.equals(DisplayModeEnum.FULL_PIP_SIX)) {
             videoView = new MyVideoVIew(getContext(), displayModeEnum);
-            popupView = new PopupOldView(getContext(), muteMic, muteCamera, audioMode);
+            popupView = new PopupOldView(getContext(), muteMic, muteCamera, audioMode, mPresenter);
+            popupView.setIPopViewCallback(iPopViewCallBack);
             mBottomLayout = new LinearLayout(getContext());
             mPresenter.hidePopView();
             videoView.setiVideoViewCallBack(mVideoViewListener);
@@ -272,10 +285,8 @@ public class VideoFragment extends Fragment implements VideoContract.View {
     }
 
     @Override
-    public void showBottomLayout(ArrayList<MemberInfo> mScreenList, ArrayList<MemberInfo> mOtherList, ArrayList<MemberInfo> mUnjoinedList) {
+    public void showBottomLayout() {
         mUIHandler.sendEmptyMessage(SHOW_HIDE_LAYOUT);
-        popupView.setMeetingUserData(mScreenList, mOtherList, mUnjoinedList);
-
     }
 
     @Override
@@ -299,6 +310,43 @@ public class VideoFragment extends Fragment implements VideoContract.View {
     }
 
     @Override
+    public void showModeDialog() {
+        modeDialog = new ModeDialog(getContext(), R.style.ModeSwitchDialog, true);
+        modeDialog.setIModeCallBack(iModeCallBack);
+        modeDialog.show();
+    }
+
+    @Override
+    public void updatePopView(ArrayList<MemberInfo> mScreenList, ArrayList<MemberInfo> mOtherList, ArrayList<MemberInfo> mUnjoinedList) {
+        popupView.setMeetingUserData(mScreenList, mOtherList, mUnjoinedList);
+    }
+
+    @Override
+    public void hideBottomLayout() {
+        mUIHandler.sendEmptyMessage(HIDE_HIDE_LAYOUY);
+    }
+
+    @Override
+    public void startRecord(boolean result, String error) {
+        popupView.startRecord(result, error);
+    }
+
+    @Override
+    public void endRecord(boolean result, String error) {
+        popupView.endRecord(result, error);
+    }
+
+    @Override
+    public void getRecordTime(long time) {
+        popupView.setRecordTime(time);
+    }
+
+    @Override
+    public void initRecord(boolean isShow, String status, String meetingId) {
+        popupView.initRecord(isShow, status, meetingId);
+    }
+
+    @Override
     public void onFinish() {
         mTopLayout.finishClock();
         mDialog = null;
@@ -309,6 +357,13 @@ public class VideoFragment extends Fragment implements VideoContract.View {
         popupView.destroy();
         getActivity().finish();
     }
+
+    private IModeCallBack iModeCallBack = new IModeCallBack() {
+        @Override
+        public void getDisplayMode(DisplayModeEnum displayModeEnum) {
+            mPresenter.changeDisplayMode(displayModeEnum);
+        }
+    };
 
     private VCDialog.DialogCallback mDialogCallback = new VCDialog.DialogCallback() {
 
@@ -400,5 +455,21 @@ public class VideoFragment extends Fragment implements VideoContract.View {
 
     };
 
+    private IPopViewCallBack iPopViewCallBack = new IPopViewCallBack() {
+        @Override
+        public void onClickPopBtn() {
+            mUIHandler.sendEmptyMessage(HIDE_HIDE_LAYOUY);
+        }
+
+        @Override
+        public void onClickMenuBtn(String type) {
+            mPresenter.clickMenuBtn(type);
+        }
+
+        @Override
+        public void onClickPerson(MemberInfo memberInfo) {
+            mPresenter.clickMenuPerson(memberInfo);
+        }
+    };
 
 }

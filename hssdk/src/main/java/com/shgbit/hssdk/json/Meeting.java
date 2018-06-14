@@ -1,7 +1,6 @@
 package com.shgbit.hssdk.json;
 
 
-import com.shgbit.hshttplibrary.json.Record;
 import com.shgbit.hshttplibrary.json.YunDesktop;
 
 public class Meeting {

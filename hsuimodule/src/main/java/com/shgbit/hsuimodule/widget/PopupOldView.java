@@ -27,7 +27,10 @@ import android.widget.Toast;
 import com.shgbit.hssdk.bean.MemberInfo;
 import com.shgbit.hssdk.bean.Status;
 import com.shgbit.hsuimodule.R;
+import com.shgbit.hsuimodule.activity.VideoContract;
+import com.shgbit.hsuimodule.activity.VideoPresenter;
 import com.shgbit.hsuimodule.adapter.GridViewAdapter;
+import com.shgbit.hsuimodule.bean.MeetingRecord;
 import com.shgbit.hsuimodule.callback.IPopViewCallBack;
 import com.shgbit.hsuimodule.callback.IVideoRecordCallBack;
 import com.shgbit.hsuimodule.util.Common;
@@ -87,18 +90,21 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
     private String meetingId = "";
     private boolean mIsShow = false;
     private Timer mTimer;
+    private long recordTime = 0;
 
     private PopupWindow mCtrlPopView;
     private PopupWindow mSharePicPopView;
 
     private IPopViewCallBack iPopViewCallBack;
+    private VideoContract.Presenter mPresenter;
 
-    public PopupOldView (Context context, boolean micstatus, boolean videostatus , boolean isvoicemode) {
+    public PopupOldView (Context context, boolean micstatus, boolean videostatus , boolean isvoicemode, VideoContract.Presenter presenter) {
         super(context);
         mContext = context;
         MicStatus = micstatus;
         ModeStatus = videostatus;
         VoiceMode = isvoicemode;
+        this.mPresenter = presenter;
         init(context);
     }
 
@@ -189,8 +195,9 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
         mJoinTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, Common.SCREENWIDTH / 40);
         mRefuseTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, Common.SCREENWIDTH / 40);
 
-        VideoRecord.getInstance(mContext).setCallBack(this);
-        VideoRecord.getInstance(mContext).startQueryStatusThread();
+//        VideoRecord.getInstance(mContext).setCallBack(this);
+//        VideoRecord.getInstance(mContext).startQueryStatusThread();
+        mPresenter.startRecordThread();
 
 
 
@@ -237,6 +244,10 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
 
     }
 
+    public void setRecordTime(long time) {
+        recordTime = time;
+    }
+
     public boolean getRecordingStatus () {
         return isRecording;
     }
@@ -254,7 +265,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
     }
 
     public void QueryStatus () {
-        VideoRecord.getInstance(mContext).startQueryStatusThread();
+//        VideoRecord.getInstance(mContext).startQueryStatusThread();
     }
 
     public void StartVideotapePoint() {
@@ -279,10 +290,11 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
     }
 
     public void StopVideotape() {
-        if (isRecording) {
-            MeetingRecord meetingRecord = new MeetingRecord();
-            meetingRecord.setMeetingId(meetingId);
-            VideoRecord.getInstance(mContext).endRecord(meetingRecord);
+        if (Common.isRecording) {
+//            MeetingRecord meetingRecord = new MeetingRecord();
+//            meetingRecord.setMeetingId(meetingId);
+//            VideoRecord.getInstance(mContext).endRecord(meetingRecord);
+            mPresenter.endRecord();
         }
         if (mTimer != null) {
             mTimer.cancel();
@@ -301,13 +313,14 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
                 if (mSharePicPopView != null) {
                     mSharePicPopView.dismiss();
                 }
-                MeetingRecord meetingRecord = new MeetingRecord();
-                meetingRecord.setMeetingId(meetingId);
-                if (isRecording == false) {
-                    VideoRecord.getInstance(mContext).startRecord(meetingRecord);
-                } else {
-                    VideoRecord.getInstance(mContext).endRecord(meetingRecord);
-                }
+//                MeetingRecord meetingRecord = new MeetingRecord();
+//                meetingRecord.setMeetingId(meetingId);
+//                if (isRecording == false) {
+//                    VideoRecord.getInstance(mContext).startRecord(meetingRecord);
+//                } else {
+//                    VideoRecord.getInstance(mContext).endRecord(meetingRecord);
+//                }
+                iPopViewCallBack.onClickMenuBtn("btn_record");
             } else if (id == R.id.btn_dropdown) {
                 if (mCtrlPopView != null) {
                     mCtrlPopView.dismiss();
@@ -601,7 +614,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
                     if (((String)msg.obj).equalsIgnoreCase("starting")) {
                         isRecording = true;
                         StartVideotapePoint();
-                        if (VideoRecord.getInstance(mContext).getStartTime() == 0) {
+                        if (recordTime == 0) {
                             mChronometer.setText("--:--:--");
                         } else {
                             if (mTimer == null) {
@@ -629,7 +642,7 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
 
         @Override
         public void run() {
-            int time = (int) ((SystemClock.elapsedRealtime() - VideoRecord.getInstance(mContext).getStartTime()) / 1000);
+            int time = (int) (SystemClock.elapsedRealtime() - recordTime / 1000);
             String hh = new DecimalFormat("00").format(time / 3600);
             String mm = new DecimalFormat("00").format(time % 3600 / 60);
             String ss = new DecimalFormat("00").format(time % 60);
@@ -784,7 +797,8 @@ public class PopupOldView extends LinearLayout implements IVideoRecordCallBack {
     }
 
     public void destroy() {
-        VideoRecord.getInstance(mContext).finish();
+//        VideoRecord.getInstance(mContext).finish();
+        mPresenter.endRecordThread();
         mRecordHandler.removeCallbacksAndMessages(null);
     }
 

@@ -5,7 +5,6 @@ import android.util.Log;
 import com.ainemo.sdk.otf.VideoInfo;
 import com.google.gson.Gson;
 import com.shgbit.hshttplibrary.ServerInteractManager;
-import com.shgbit.hshttplibrary.json.User;
 import com.shgbit.hssdk.bean.Cmd;
 import com.shgbit.hssdk.bean.Command;
 import com.shgbit.hssdk.bean.CurrentMeetingInfo;
@@ -14,6 +13,7 @@ import com.shgbit.hssdk.bean.Net_Status;
 import com.shgbit.hssdk.bean.Status;
 import com.shgbit.hssdk.bean.SessionType;
 import com.shgbit.hssdk.callback.VideoUpdateListener;
+import com.shgbit.hssdk.json.User;
 import com.shgbit.hssdk.sdk.VideoCtrl;
 
 import java.util.ArrayList;

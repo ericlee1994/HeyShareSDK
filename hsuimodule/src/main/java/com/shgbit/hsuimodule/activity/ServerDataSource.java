@@ -6,7 +6,7 @@ import com.shgbit.hsuimodule.bean.User;
 
 import java.util.ArrayList;
 
-public interface VideosDataSource {
+public interface ServerDataSource {
     interface LoadVideosCallback {
         void onVideosLoaded(ArrayList<MemberInfo> mScreenList, ArrayList<MemberInfo> mOtherList, ArrayList<MemberInfo> mUnjoinedList);
         void onNoVideosAvailable();
@@ -20,9 +20,16 @@ public interface VideosDataSource {
         void onInviteMeeting(InvitedMeeting invitedMeeting);
     }
 
+    interface RecordCallback {
+        void onStartRecord(boolean result, String error);
+        void onEndRecord(boolean result, String error);
+    }
+
     void getVideos(LoadVideosCallback loadVideosCallback);
 
     void getInviteUsers(InviteUsersCallback inviteUsersCallback);
 
     void getInviteMeeting(InviteMeetingCallback inviteMeetingCallback);
+
+    void getRecord(RecordCallback recordCallback);
 }

@@ -1,16 +1,18 @@
 package com.shgbit.hsuimodule.activity;
 
-import android.content.Intent;
+import android.os.SystemClock;
 import android.util.Log;
 
-import com.ainemo.sdk.otf.NemoSDK;
+import com.google.gson.Gson;
+import com.shgbit.hssdk.bean.CurrentMeetingInfo;
 import com.shgbit.hssdk.bean.MemberInfo;
 import com.shgbit.hssdk.bean.Status;
-import com.shgbit.hssdk.manager.MeetingInfoManager;
+import com.shgbit.hssdk.callback.HeyshareCallback;
+import com.shgbit.hssdk.json.Meeting;
 import com.shgbit.hssdk.sdk.HeyShareSDK;
-import com.shgbit.hsuimodule.R;
 import com.shgbit.hsuimodule.bean.DisplayModeEnum;
 import com.shgbit.hsuimodule.bean.InvitedMeeting;
+import com.shgbit.hsuimodule.bean.MeetingRecord;
 import com.shgbit.hsuimodule.bean.User;
 import com.shgbit.hsuimodule.bean.VideoInfo;
 import com.shgbit.hsuimodule.util.Common;
@@ -19,6 +21,7 @@ import com.shgbit.hsuimodule.widget.VCDialog;
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.shgbit.hsuimodule.util.Common.isRecording;
 
 public class VideoPresenter implements VideoContract.Presenter{
 
@@ -37,6 +40,9 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     private boolean foregroundCamera = true;
     private int cameraId = 1;
+
+    private long startTime = 0;
+    private QueryStatusThread thread;
 
     public VideoPresenter(VideoRepository videoRepository, VideoContract.View videoView){
         mVideoView = checkNotNull(videoView, "videoView cannot be null!");
@@ -58,7 +64,7 @@ public class VideoPresenter implements VideoContract.Presenter{
     public void connectNemo(String UserName, String Password) {
         checkNotNull(UserName, "UserName cannot be null!");
         checkNotNull(Password, "Password cannot be null");
-        HeyShareSDK.getInstance().video().connect(UserName, Password);
+        HeyShareSDK.video().connect(UserName, Password);
     }
 
     @Override
@@ -79,13 +85,13 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     @Override
     public void getVideoInfos() {
-        mVideoRepository.getVideos(new VideosDataSource.LoadVideosCallback() {
+        mVideoRepository.getVideos(new ServerDataSource.LoadVideosCallback() {
             @Override
             public void onVideosLoaded(ArrayList<MemberInfo> mScreen, ArrayList<MemberInfo> mOther, ArrayList<MemberInfo> mUnjoined) {
 
                 if (mScreen != null && mScreen.size() > 0) {
-                    if (!mScreen.get(0).getDataSourceID().equalsIgnoreCase(NemoSDK.getLocalVideoStreamID())) {
-                        HeyShareSDK.getInstance().video().forceLayout(mScreen.get(0).getParticipantId());
+                    if (!mScreen.get(0).isLocal()) {
+                        HeyShareSDK.video().forceLayout(mScreen.get(0).getParticipantId());
                     }
                 }
 
@@ -96,6 +102,7 @@ public class VideoPresenter implements VideoContract.Presenter{
                 for (int i = 0; i < mScreen.size(); i++) {
                     mScreenList.add(new MemberInfo(mScreen.get(i)));
                 }
+
 
                 if (mOtherList == null) {
                     mOtherList = new ArrayList<>();
@@ -129,7 +136,7 @@ public class VideoPresenter implements VideoContract.Presenter{
         MemberInfo memberInfo1 = new MemberInfo();
         memberInfo1.setId(v1.getId());
         memberInfo1.setSessionType(v1.getSessionType());
-        HeyShareSDK.getInstance().video().screenExchange(memberInfo0, memberInfo1);
+        HeyShareSDK.video().screenExchange(memberInfo0, memberInfo1);
     }
 
     @Override
@@ -140,12 +147,12 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     @Override
     public void refuseInvite() {
-        HeyShareSDK.getInstance().refuseInviting(inviteMeetingId, otherMeetingInviter);
+        HeyShareSDK.common().refuseInviting(Common.USERNAME, inviteMeetingId, otherMeetingInviter);
     }
 
     @Override
     public void getInviteUsers(User[] users) {
-        mVideoRepository.getInviteUsers(new VideosDataSource.InviteUsersCallback() {
+        mVideoRepository.getInviteUsers(new ServerDataSource.InviteUsersCallback() {
             @Override
             public void onInviteUsers(User[] users) {
                 String[] userName = new String[users.length];
@@ -163,7 +170,7 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     @Override
     public void getInviteMeeting() {
-        mVideoRepository.getInviteMeeting(new VideosDataSource.InviteMeetingCallback() {
+        mVideoRepository.getInviteMeeting(new ServerDataSource.InviteMeetingCallback() {
             @Override
             public void onInviteMeeting(InvitedMeeting invitedMeeting) {
                 inviteMeetingId = invitedMeeting.getMeetingId();
@@ -172,6 +179,7 @@ public class VideoPresenter implements VideoContract.Presenter{
         });
     }
 
+    final String BTN_RECORD = "btn_record";
     final String BTN_SHOW_PERSON = "btn_show_person";
     final String BTN_ADD_PERSON = "btn_add_person";
     final String BTN_BAN_MIC = "btn_ban_mic";
@@ -186,10 +194,17 @@ public class VideoPresenter implements VideoContract.Presenter{
 
     @Override
     public void clickMenuBtn(String type) {
+
         if (BTN_SHOW_PERSON.equals(type)) {
             mVideoView.hideBottomLayout();
         } else {
-            if (BTN_ADD_PERSON.equals(type)) {
+            if (BTN_RECORD.equals(type)){
+                if (!isRecording) {
+                    startRecord();
+                }else {
+                    endRecord();
+                }
+            }else if (BTN_ADD_PERSON.equals(type)) {
 //                Log.i(TAG, "[user operation]click add person");
 //                if (hssdkContactListener != null) {
 //                    boolean flag = hssdkContactListener.contact(mContext, R.id.video_fragment);
@@ -205,19 +220,19 @@ public class VideoPresenter implements VideoContract.Presenter{
                 Log.i(TAG, "[user operation]click muteMic btn:" + Common.ISMUTEMIC);
 
                 Common.ISMUTEMIC = !Common.ISMUTEMIC;
-                HeyShareSDK.getInstance().video().audioMute(Common.ISMUTEMIC);
+                HeyShareSDK.video().audioMute(Common.ISMUTEMIC);
             } else if (BTN_CLOSE_CAMERA.equals(type)) {
                 Log.i(TAG, "[user operation]click off camera");
 
                 Common.ISMUTECAMERA = !Common.ISMUTECAMERA;
-                HeyShareSDK.getInstance().video().videoMute(Common.ISMUTECAMERA);
+                HeyShareSDK.video().videoMute(Common.ISMUTECAMERA);
             } else if (BTN_VOICE_MODE.equals(type)) {
                 Log.i(TAG, "[user operation]click into Voice Mode");
 
                 Common.ISAUDIOMODE = !Common.ISAUDIOMODE;
-                HeyShareSDK.getInstance().video().audioMode(Common.ISAUDIOMODE);
+                HeyShareSDK.video().audioMode(Common.ISAUDIOMODE);
                 if (!Common.ISAUDIOMODE){
-                    HeyShareSDK.getInstance().video().videoMute(Common.ISMUTECAMERA);
+                    HeyShareSDK.video().videoMute(Common.ISMUTECAMERA);
                 }
             } else if (BTN_SWITCH_CAMERA.equals(type)) {
                 Log.i(TAG, "[user operation]click switch camera");
@@ -235,7 +250,7 @@ public class VideoPresenter implements VideoContract.Presenter{
                 else{
                     this.cameraId = cameraId;
                 }
-                HeyShareSDK.getInstance().video().switchCamera(cameraId);
+                HeyShareSDK.video().switchCamera(cameraId);
 
             } else if (BTN_DISPLAY_MODE.equals(type)) {
                 Log.i(TAG, "[user operation]click display mode");
@@ -243,7 +258,7 @@ public class VideoPresenter implements VideoContract.Presenter{
             } else if (BTN_HANGUP.equals(type)) {
                 Log.i(TAG, "[user operation]click hangup btn");
                 String hangupInfo;
-                if (Common.isRecording){
+                if (isRecording){
                     hangupInfo = "如果退出会议，将终止录像，是否退出？";
                 }else {
                     hangupInfo = "确定要退出会议吗？";
@@ -299,11 +314,111 @@ public class VideoPresenter implements VideoContract.Presenter{
     @Override
     public void clickMenuPerson(MemberInfo memberInfo) {
         if (memberInfo.getStatus().equals(Status.JOINED)) {
-            HeyShareSDK.getInstance().video().popUpDown(memberInfo);
+            HeyShareSDK.video().popUpDown(memberInfo);
         }else {
             String[] user = {memberInfo.getId()};
-            HeyShareSDK.getInstance().inviteUsers(Common.meetingId, user);
-            HeyShareSDK.getInstance().video().stateChange(user, Status.INVITING);
+            HeyShareSDK.common().inviteUsers(Common.USERNAME, Common.meetingId, user);
+            HeyShareSDK.video().stateChange(user, Status.INVITING);
+        }
+    }
+
+    @Override
+    public void startRecord() {
+        HeyShareSDK.common().startRecord(Common.meetingId);
+    }
+
+    @Override
+    public void endRecord() {
+        HeyShareSDK.common().endRecord(Common.meetingId);
+    }
+
+    @Override
+    public void getRecord() {
+        mVideoRepository.getRecord(new ServerDataSource.RecordCallback() {
+            @Override
+            public void onStartRecord(boolean result, String error) {
+                mVideoView.startRecord(result, error);
+                if (result) {
+                    startTime = SystemClock.elapsedRealtime();
+                }
+            }
+
+            @Override
+            public void onEndRecord(boolean result, String error) {
+                mVideoView.endRecord(result, error);
+                if (result) {
+                    startTime = 0;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getRecordTime(long time) {
+        mVideoView.getRecordTime(time);
+    }
+
+    @Override
+    public void startRecordThread() {
+        try {
+            if (thread != null) {
+                thread.join(100);
+                thread.interrupt();
+                thread = null;
+            }
+
+            thread = new QueryStatusThread();
+            thread.start();
+        } catch (Throwable e) {
+            Log.e(TAG, "startThread Throwable:" + e.toString());
+        }
+    }
+
+    @Override
+    public void endRecordThread() {
+        try {
+            if (thread != null) {
+                thread.join(100);
+                thread.interrupt();
+                thread = null;
+            }
+
+        } catch (Throwable e) {
+            Log.e(TAG, "finalize Throwable:" + e.toString());
+        }
+    }
+
+    private class QueryStatusThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                String result = "";
+                try {
+                    result = HeyShareSDK.common().getSyncCurrentMeeting();
+                } catch (Throwable e) {
+                    Log.e(TAG, "httpGet Throwable: " + e.toString());
+                }
+
+                CurrentMeetingInfo cmi = null;
+                try {
+                    cmi = new Gson().fromJson(result, CurrentMeetingInfo.class);
+                } catch (Throwable e) {
+                    Log.e(TAG, "parse CurrentMeetingInfo Throwable: " + e.toString());
+                }
+
+                if (mVideoView != null) {
+                    if (cmi != null && cmi.getMeeting() != null) {
+                        Meeting meeting = cmi.getMeeting();
+                        if (meeting.getCreatedUser().getUserName().equals(Common.USERNAME) == true) {
+                            mVideoView.initRecord(true, meeting.getRecord() == null?"":meeting.getRecord().getStatus(),meeting.getMeetingId());
+                        } else {
+                            mVideoView.initRecord(false, "", "");
+                        }
+                    }
+                }
+            } catch (Throwable e) {
+                Log.e(TAG, "QueryStatusThread Throwable:" + e.toString());
+            }
         }
     }
 
@@ -316,8 +431,8 @@ public class VideoPresenter implements VideoContract.Presenter{
                         for (int j = 0; j < mUsers.length; j++) {
                             if (mUnjoinedList.get(i).getId().equals(mUsers[j])) {
                                 String[] user1 = {mUnjoinedList.get(i).getId()};
-                                HeyShareSDK.getInstance().video().stateChange(user1, Status.WAITING);
-                                HeyShareSDK.getInstance().video().cancelInviting(Common.meetingId, mUnjoinedList.get(i).getId());
+                                HeyShareSDK.video().stateChange(user1, Status.WAITING);
+                                HeyShareSDK.common().cancelInviting(Common.meetingId, mUnjoinedList.get(i).getId());
                                 Log.i(TAG, "cancel invite:" + mUnjoinedList.get(i).getId());
                             }
                         }
@@ -325,14 +440,14 @@ public class VideoPresenter implements VideoContract.Presenter{
                 }
             }
         }
-        HeyShareSDK.getInstance().video().handupMeeting();
-        HeyShareSDK.getInstance().video().quitMeeting(Common.USERNAME, Common.meetingId);
+        HeyShareSDK.video().handupMeeting();
+        HeyShareSDK.common().quitMeeting(Common.USERNAME, Common.meetingId);
     }
 
     @Override
     public void finish() {
-        HeyShareSDK.getInstance().video().switchCamera(1);
-        HeyShareSDK.getInstance().video().finalize();
+        HeyShareSDK.video().switchCamera(1);
+        HeyShareSDK.video().finalize();
         mVideoView.onFinish();
     }
 }

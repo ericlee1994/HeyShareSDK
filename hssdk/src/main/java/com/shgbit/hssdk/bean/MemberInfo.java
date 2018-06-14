@@ -34,6 +34,22 @@ public class MemberInfo {
 		isVideoMute = false;
 	}
 
+	public MemberInfo (MemberInfo memberInfo) {
+		id = memberInfo.id;
+		displayName = memberInfo.displayName;
+		sessionType = memberInfo.sessionType;
+		net_status = memberInfo.net_status;
+		status= memberInfo.status;
+		isLocal = memberInfo.isLocal;
+		isUvc = memberInfo.isUvc;
+		remoteName = memberInfo.remoteName;
+		dataSourceID = memberInfo.dataSourceID;
+		participantId = memberInfo.participantId;
+		isContent = memberInfo.isContent;
+		isAudioMute = memberInfo.isAudioMute;
+		isVideoMute = memberInfo.isVideoMute;
+	}
+
 	public String getId() {
 		return id;
 	}

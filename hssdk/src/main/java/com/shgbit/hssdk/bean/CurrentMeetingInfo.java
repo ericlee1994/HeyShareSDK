@@ -1,7 +1,7 @@
 package com.shgbit.hssdk.bean;
 
 
-import com.shgbit.hshttplibrary.json.Meeting;
+import com.shgbit.hssdk.json.Meeting;
 
 public class CurrentMeetingInfo {
 	private String result;

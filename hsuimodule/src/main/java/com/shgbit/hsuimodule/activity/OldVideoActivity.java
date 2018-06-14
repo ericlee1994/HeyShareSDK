@@ -42,7 +42,6 @@ import com.shgbit.hsuimodule.widget.MyVideoVIew;
 import com.shgbit.hsuimodule.widget.PopupOldView;
 import com.shgbit.hsuimodule.widget.TitleLayout;
 import com.shgbit.hsuimodule.widget.VCDialog;
-import com.shgbit.hsuimodule.widget.VideoRecord;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -226,6 +225,7 @@ public class OldVideoActivity extends BaseActivity implements IPopViewCallBack {
     @Override
     public void onClickMenuBtn(String type) {
         clickMenuBtn(type);
+
     }
 
     @Override

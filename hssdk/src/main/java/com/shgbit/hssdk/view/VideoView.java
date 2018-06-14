@@ -1,12 +1,12 @@
 package com.shgbit.hssdk.view;
 
-
 import android.content.Context;
 import android.view.ViewGroup;
 
-public class VideoCellView extends VideoView {
-    private int participantId;
-    public VideoCellView (Context context) {
+import com.ainemo.sdk.otf.OpenGLTextureView;
+
+public class VideoView extends OpenGLTextureView{
+    protected VideoView (Context context) {
         super(context);
     }
 
@@ -30,11 +30,8 @@ public class VideoCellView extends VideoView {
         super.setLayoutParams(params);
     }
 
-    public int getParticipantId() {
-        return participantId;
-    }
-
-    public void setParticipantId(int participantId) {
-        this.participantId = participantId;
+    @Override
+    public void requestRender() {
+        super.requestRender();
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.shgbit.hssdk.sdk.HeyShareSDK;
 import com.shgbit.hsuimodule.R;
 import com.shgbit.hsuimodule.util.ActivityUtils;
 
@@ -24,7 +25,8 @@ public class VideoActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), videoFragment, R.id.video_fragment);
         }
 
-        mVideoPresenter = new VideoPresenter();
+        mVideoPresenter = new VideoPresenter(Injection.provideVideoRepository(getApplicationContext()), videoFragment);
+        HeyShareSDK.common().setHeyshareCallback(Injection.provideVideoRepository(getApplicationContext()).getHeyShareCallback());
     }
 
 }

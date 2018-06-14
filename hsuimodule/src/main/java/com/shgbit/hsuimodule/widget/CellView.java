@@ -17,18 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.shgbit.hssdk.bean.DisplayType;
-import com.shgbit.hssdk.bean.MemberInfo;
-import com.shgbit.hssdk.bean.STATUS;
-import com.shgbit.hssdk.bean.VI;
-import com.shgbit.hssdk.sdk.Common;
+import com.shgbit.hssdk.bean.Net_Status;
+import com.shgbit.hssdk.bean.Status;
 import com.shgbit.hssdk.sdk.HeyShareSDK;
+import com.shgbit.hssdk.view.VideoCellView;
 import com.shgbit.hsuimodule.R;
 import com.shgbit.hsuimodule.activity.OldVideoActivity;
 import com.shgbit.hsuimodule.bean.DisplayModeEnum;
-import com.shgbit.hsuimodule.bean.VideoCellView;
 import com.shgbit.hsuimodule.bean.VideoInfo;
 import com.shgbit.hsuimodule.callback.IViewLayoutCallBack;
+import com.shgbit.hsuimodule.util.Common;
 
 
 //import com.shgbit.android.whiteboard.CustomPaintView;
@@ -40,7 +38,7 @@ import com.shgbit.hsuimodule.callback.IViewLayoutCallBack;
 public class CellView extends FrameLayout {
     private static final String TAG = "CellView";
 
-    public VideoCellView videoCellView;
+    public VideoCellView cellView;
     private View picView;
     private View ctrlView;
 
@@ -140,15 +138,15 @@ public class CellView extends FrameLayout {
 
     public void setInfo(VideoInfo v, DisplayModeEnum displayModeEnum) {
         this.displayModeEnum = displayModeEnum;
-        if (v != null && vi != null && vi.getmDisplayType() != v.getmDisplayType() || vi == null) {
+        if (v != null && vi != null) {
             isNeedChange = true;
         }
         this.vi = v;
     }
 
-    public String getPicturePage () {
-        return ""+mCur;
-    }
+//    public String getPicturePage () {
+//        return ""+mCur;
+//    }
 
 //    public void startPizhu (CustomPaintView mainView) {
 //        if (isAddComment) {
@@ -206,21 +204,22 @@ public class CellView extends FrameLayout {
                 return;
             }
             isNeedChange = false;
-            if (vi == null || vi.getmDisplayType() == DisplayType.VIDEO) {
+            if (vi == null) {
                 mImgContent.setImageBitmap(null);
                 picView.setVisibility(INVISIBLE);
-                videoCellView.setVisibility(VISIBLE);
+                cellView.setVisibility(VISIBLE);
+
             } else {
-                videoCellView.setSourceID("");
-                videoCellView.setVisibility(INVISIBLE);
+                cellView.setSourceID("");
+                cellView.setVisibility(INVISIBLE);
                 picView.setVisibility(VISIBLE);
             }
             return;
         }
         isNeedInit = false;
 
-        videoCellView  = new VideoCellView(context);
-        addView(videoCellView);
+        cellView = new VideoCellView(context);
+        addView(cellView);
 
         picView = LayoutInflater.from(context).inflate(R.layout.picture, null);
         addView(picView);
@@ -236,7 +235,8 @@ public class CellView extends FrameLayout {
         mllytPicture.setVisibility(INVISIBLE);
         mCur = 0;
 
-        videoCellView.setVisibility(INVISIBLE);
+        cellView.setVisibility(INVISIBLE);
+
         picView.setVisibility(INVISIBLE);
 
         ctrlView = LayoutInflater.from(context).inflate(R.layout.displayview, null);
@@ -280,17 +280,17 @@ public class CellView extends FrameLayout {
 
     public void Finalize () {
         removeAllViews();
-        if (videoCellView != null) {
-            videoCellView.setSourceID("");
-            videoCellView = null;
+        if (cellView != null) {
+            cellView.setSourceID("");
+            cellView = null;
         }
     }
 
-    public VideoCellView getVideoCellView() {
-        return videoCellView;
+    public VideoCellView getCellView() {
+        return cellView;
     }
 
-    public VI getVideoInfo() {
+    public VideoInfo getVideoInfo() {
         return vi;
     }
 
@@ -299,7 +299,7 @@ public class CellView extends FrameLayout {
     }
 
     public void showButtonLayout () {
-        if ((mPosition == 0 && !displayModeEnum.equals(DisplayModeEnum.NOT_FULL_QUARTER))|| vi == null || vi.getStatus().equals(STATUS.JOINED) == false) {
+        if ((mPosition == 0 && !displayModeEnum.equals(DisplayModeEnum.NOT_FULL_QUARTER))|| vi == null || vi.getStatus().equals(Status.JOINED) == false) {
             return;
         }
         mLlytButton.setVisibility(VISIBLE);
@@ -361,9 +361,9 @@ public class CellView extends FrameLayout {
             mLlytButton.setVisibility(INVISIBLE);
             mLlytRobot.setVisibility(INVISIBLE);
 
-            videoCellView.setVisibility(INVISIBLE);
-            videoCellView.setSourceID("");
-            videoCellView.setParticipantId(-2);
+            cellView.setVisibility(INVISIBLE);
+            cellView.setSourceID("");
+            cellView.setParticipantId(-2);
 
             mImgContent.setImageBitmap(null);
             picView.setVisibility(INVISIBLE);
@@ -413,40 +413,40 @@ public class CellView extends FrameLayout {
                 mImgBanMic.setVisibility(INVISIBLE);
             }
 
-            if (vi.getStatus().equals(STATUS.JOINED)){
+            if (vi.getStatus().equals(Status.JOINED)){
                 mLlytStatus.setVisibility(INVISIBLE);
 
-                if (vi.getNet_status() == MemberInfo.NET_STATUS.Normal){
+                if (vi.getNet_status() == Net_Status.NORMAL){
                     mImgBG.setVisibility(INVISIBLE);
                     mLlytRobot.setVisibility(INVISIBLE);
-                    videoCellView.setVisibility(VISIBLE);
+                    cellView.setVisibility(VISIBLE);
 
-                    videoCellView.setSourceID(vi.getDataSourceID());
-                    videoCellView.setParticipantId(vi.getParticipantId());
-                    videoCellView.setContent(vi.isContent());
+                    cellView.setSourceID(vi.getDataSourceID());
+                    cellView.setParticipantId(vi.getParticipantId());
+                    cellView.setContent(vi.isContent());
                 }else {
                     mImgBG.setVisibility(VISIBLE);
                     if (displayModeEnum.equals(DisplayModeEnum.FULL_PIP)
                             || displayModeEnum.equals(DisplayModeEnum.FULL_PIP_SIX)) {
                         mImgBG.setImageResource(R.drawable.bg_whole);
                     }
-                    videoCellView.setVisibility(INVISIBLE);
-                    videoCellView.setSourceID("");
+                    cellView.setVisibility(INVISIBLE);
+                    cellView.setSourceID("");
                     mLlytRobot.setVisibility(VISIBLE);
                     mTxtRobot.setVisibility(VISIBLE);
-                    if (vi.getNet_status() == MemberInfo.NET_STATUS.Lost) {
+                    if (vi.getNet_status() == Net_Status.LOST) {
                         mTxtRobot.setText(R.string.network_limit);
                         mImgRobot.setImageResource(R.drawable.robot_network);
-                    } else if (vi.getNet_status() == MemberInfo.NET_STATUS.Loading) {
+                    } else if (vi.getNet_status() == Net_Status.LOADING) {
                         mTxtRobot.setText(R.string.no_signal);
                         mImgRobot.setImageResource(R.drawable.robot_network);
-                    } else if (vi.getNet_status() == MemberInfo.NET_STATUS.ContentOnlyUnsend) {
+                    } else if (vi.getNet_status() == Net_Status.CONTENTONLY_UNSEND) {
                         mTxtRobot.setText(R.string.content_prepare);
                         mImgRobot.setImageResource(R.drawable.robot_network);
-                    } else if (vi.getNet_status() == MemberInfo.NET_STATUS.VideoMute) {
+                    } else if (vi.getNet_status() == Net_Status.VIDEO_MUTE) {
                         mTxtRobot.setText(R.string.close_camera);
                         mImgRobot.setImageResource(R.drawable.robot_camera);
-                    } else if (vi.getNet_status() == MemberInfo.NET_STATUS.VoiceMode) {
+                    } else if (vi.getNet_status() == Net_Status.AUDIO_MODE) {
                         mTxtRobot.setText(R.string.voice_mode);
                         mImgRobot.setImageResource(R.drawable.img_voice_mode);
                     } else {
@@ -462,22 +462,22 @@ public class CellView extends FrameLayout {
                     mImgBG.setImageResource(R.drawable.bg_whole);
                 }
                 mLlytStatus.bringToFront();
-                if (vi.getStatus().equals(STATUS.BUSY)) {
-                    videoCellView.setVisibility(INVISIBLE);
+                if (vi.getStatus().equals(Status.BUSY)) {
+                    cellView.setVisibility(INVISIBLE);
 
                     mLlytStatus.setVisibility(VISIBLE);
                     mLlytStatus1.setVisibility(VISIBLE);
                     mLlytStatus2.setVisibility(INVISIBLE);
                     mTxtStatus.setText(getResources().getString(R.string.busy));
-                } else if (vi.getStatus().equals(STATUS.INVITING)) {
-                    videoCellView.setVisibility(INVISIBLE);
+                } else if (vi.getStatus().equals(Status.INVITING)) {
+                    cellView.setVisibility(INVISIBLE);
 
                     mLlytStatus.setVisibility(VISIBLE);
                     mLlytStatus1.setVisibility(INVISIBLE);
                     mLlytStatus2.setVisibility(VISIBLE);
                     mTxtStatus.setText(getResources().getString(R.string.inviting));
-                } else if (vi.getStatus().equals(STATUS.TIMEOUT)) {
-                    videoCellView.setVisibility(INVISIBLE);
+                } else if (vi.getStatus().equals(Status.TIMEOUT)) {
+                    cellView.setVisibility(INVISIBLE);
 
                     mLlytStatus.setVisibility(VISIBLE);
                     mLlytStatus1.setVisibility(VISIBLE);
@@ -576,27 +576,27 @@ public class CellView extends FrameLayout {
             }else if (id == R.id.img_close_button1){
                 Log.i(TAG, "[user operation]click popdown view");
                 if (iViewLayoutCallBack != null && vi != null) {
-                    if (vi.getmDisplayType() == DisplayType.PICTURE) {
-                        iViewLayoutCallBack.closePic();
-                    } else {
+//                    if (vi.getmDisplayType() == DisplayType.PICTURE) {
+//                        iViewLayoutCallBack.closePic();
+//                    } else {
                         iViewLayoutCallBack.changeStatus(mPosition);
-                    }
+//                    }
                 }
             }else if (id == R.id.img_close_button2){
                 Log.i(TAG, "[user operation]click popdown view");
                 if (iViewLayoutCallBack != null && vi != null) {
-                    if (vi.getmDisplayType() == DisplayType.PICTURE) {
-                        iViewLayoutCallBack.closePic();
-                    } else {
+//                    if (vi.getmDisplayType() == DisplayType.PICTURE) {
+//                        iViewLayoutCallBack.closePic();
+//                    } else {
                         iViewLayoutCallBack.changeStatus(mPosition);
-                    }
+//                    }
                 }
             }else if (id == R.id.img_closeview_status1) {
                 Log.i(TAG, "btn_call_cancel");
 
                 String[] user = {vi.getId()};
 //                MeetingInfoManager.getInstance().StateChange(user, STATUS.WAITING);
-                HeyShareSDK.getInstance().stateChange(user, STATUS.WAITING);
+                HeyShareSDK.video().stateChange(user, Status.WAITING);
 
 //                CancelInviteInfo cl = new CancelInviteInfo();
 //                cl.setMeetingId(VideoActivity.mRecallMeeting.getId());
@@ -605,7 +605,7 @@ public class CellView extends FrameLayout {
 //                ServerInteractManager.getInstance().cancelMeeting(cl);
 //                ServerInteractManager.getInstance().cancleMeeting(cl);
 
-                HeyShareSDK.getInstance().cancelInvite(OldVideoActivity.mRecallMeeting.getId(), vi.getRemoteName());
+                HeyShareSDK.common().cancelInviting(OldVideoActivity.mRecallMeeting.getId(),vi.getRemoteName());
 
             }else if (id == R.id.img_inviteagain_status1) {
                 Log.i(TAG, "btn_invite_again");
@@ -613,14 +613,14 @@ public class CellView extends FrameLayout {
                     String[] user1 = {vi.getId()};
                     OldVideoActivity.reInvited(user1);
 //                    MeetingInfoManager.getInstance().StateChange(user1, STATUS.INVITING);
-                    HeyShareSDK.getInstance().stateChange(user1, STATUS.INVITING);
+                    HeyShareSDK.video().stateChange(user1, Status.INVITING);
                 }
             }else if (id == R.id.img_callcancle_status2) {
                 Log.i(TAG, "btn_invite_cancel");
                 if (vi != null) {
                     String[] user2 = {vi.getId()};
 //                    MeetingInfoManager.getInstance().StateChange(user2, STATUS.WAITING);
-                    HeyShareSDK.getInstance().stateChange(user2, STATUS.WAITING);
+                    HeyShareSDK.video().stateChange(user2, Status.WAITING);
                 }
             }else if (id == R.id.img_scale) {
                 iViewLayoutCallBack.backToDefaultMode(vi);
@@ -911,8 +911,8 @@ public class CellView extends FrameLayout {
             height = bottom - top;
 //            Log.e(TAG, "#################changed!!" + width + " " + height);
             LayoutParams lp = new LayoutParams(width, height);
-            if (videoCellView != null) {
-                videoCellView.setLayoutParams(lp);
+            if (cellView != null) {
+                cellView.setLayoutParams(lp);
             }
 
             if (picView != null) {

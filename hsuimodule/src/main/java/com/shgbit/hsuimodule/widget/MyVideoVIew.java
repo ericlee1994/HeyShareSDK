@@ -14,8 +14,8 @@ import com.shgbit.hssdk.bean.DisplayType;
 import com.shgbit.hssdk.bean.MemberInfo;
 import com.shgbit.hssdk.bean.VI;
 import com.shgbit.hssdk.sdk.HeyShareSDK;
+import com.shgbit.hssdk.view.VideoCellView;
 import com.shgbit.hsuimodule.bean.DisplayModeEnum;
-import com.shgbit.hsuimodule.bean.VideoCellView;
 import com.shgbit.hsuimodule.bean.VideoInfo;
 import com.shgbit.hsuimodule.callback.IVideoViewCallBack;
 import com.shgbit.hsuimodule.callback.IViewLayoutCallBack;
@@ -74,7 +74,7 @@ public class MyVideoVIew extends ViewGroup {
             displayCount = 1;
         }
 //        MeetingInfoManager.getInstance().ModeChange(displayCount);
-        HeyShareSDK.getInstance().setDisplaySize(displayCount);
+        HeyShareSDK.video().modeChange(displayCount);
         initView();
     }
 
@@ -89,10 +89,10 @@ public class MyVideoVIew extends ViewGroup {
     }
 
     public void initView(){
-        mScreenList = new ArrayList<CellView>();
+        mScreenList = new ArrayList<com.shgbit.hsuimodule.widget.CellView>();
         for (int i = 0; i < displayCount; i++) {
-            CellView viewLayout;
-            viewLayout = new CellView(mContext);
+            com.shgbit.hsuimodule.widget.CellView viewLayout;
+            viewLayout = new com.shgbit.hsuimodule.widget.CellView(mContext);
             viewLayout.setInfo(null, displayModeEnum);
             viewLayout.setPosition(i);
             viewLayout.setId(i);
@@ -118,23 +118,23 @@ public class MyVideoVIew extends ViewGroup {
 //        mMainView = mainView;
 //    }
 
-    public String getPicturePage () {
-        String page = "";
-        if (mScreenList == null) {
-            return page;
-        }
-
-        for (int i = 0; i < mScreenList.size(); i++) {
-            if (mScreenList.get(i) == null || mScreenList.get(i).getVideoInfo() == null) {
-                continue;
-            }
-            if (mScreenList.get(i).getVideoInfo().getmDisplayType() == DisplayType.PICTURE) {
-                page = mScreenList.get(i).getPicturePage();
-                break;
-            }
-        }
-        return page;
-    }
+//    public String getPicturePage () {
+//        String page = "";
+//        if (mScreenList == null) {
+//            return page;
+//        }
+//
+//        for (int i = 0; i < mScreenList.size(); i++) {
+//            if (mScreenList.get(i) == null || mScreenList.get(i).getVideoInfo() == null) {
+//                continue;
+//            }
+//            if (mScreenList.get(i).getVideoInfo().getmDisplayType() == DisplayType.PICTURE) {
+//                page = mScreenList.get(i).getPicturePage();
+//                break;
+//            }
+//        }
+//        return page;
+//    }
 
 //    private void endPizhu () {
 //        if (mScreenList == null) {
@@ -227,7 +227,7 @@ public class MyVideoVIew extends ViewGroup {
         @Override
         public void closePic() {
             if (iVideoViewCallBack != null) {
-                iVideoViewCallBack.closePic();
+//                iVideoViewCallBack.closePic();
             }
         }
 
@@ -236,9 +236,15 @@ public class MyVideoVIew extends ViewGroup {
             UIHandler.removeMessages(HIDELAYOUT);
             UIHandler.sendEmptyMessage(HIDELAYOUT);
             if (mScreenList.get(id).getVideoInfo() != null){
-                iVideoViewCallBack.switchPosition();
+//                iVideoViewCallBack.switchPosition();
 //                MeetingInfoManager.getInstance().ScreenExchange(mScreenList.get(0).getVideoInfo(), mScreenList.get(id).getVideoInfo());
-                HeyShareSDK.getInstance().exchangeScreen(mScreenList.get(0).getVideoInfo(), mScreenList.get(id).getVideoInfo());
+                MemberInfo memberInfo0 = new MemberInfo();
+                memberInfo0.setId(mScreenList.get(0).getVideoInfo().getId());
+                memberInfo0.setSessionType(mScreenList.get(0).getVideoInfo().getSessionType());
+                MemberInfo memberInfo1 = new MemberInfo();
+                memberInfo1.setId(mScreenList.get(0).getVideoInfo().getId());
+                memberInfo1.setSessionType(mScreenList.get(0).getVideoInfo().getSessionType());
+                HeyShareSDK.video().screenExchange(memberInfo0, memberInfo1);
             }
 
         }
@@ -247,9 +253,12 @@ public class MyVideoVIew extends ViewGroup {
         public void changeStatus(int id) {
             UIHandler.removeMessages(HIDELAYOUT);
             UIHandler.sendEmptyMessage(HIDELAYOUT);
-                if (mScreenList.get(id).getVideoInfo() != null) {
+            if (mScreenList.get(id).getVideoInfo() != null) {
 //                    MeetingInfoManager.getInstance().PopDown(mScreenList.get(id).getVideoInfo());
-                    HeyShareSDK.getInstance().popDown(mScreenList.get(id).getVideoInfo());
+                MemberInfo memberInfo0 = new MemberInfo();
+                memberInfo0.setId(mScreenList.get(0).getVideoInfo().getId());
+                memberInfo0.setSessionType(mScreenList.get(0).getVideoInfo().getSessionType());
+                HeyShareSDK.video().popDown(memberInfo0);
             }
         }
 
@@ -274,7 +283,7 @@ public class MyVideoVIew extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         for (int i = 0; i < mScreenList.size(); i++) {
-            if (mScreenList.get(i) == null && mScreenList.get(i).getVideoCellView() != null) {
+            if (mScreenList.get(i) == null && mScreenList.get(i).getCellView() != null) {
                 continue;
             }
 
@@ -514,9 +523,9 @@ public class MyVideoVIew extends ViewGroup {
                     if (mScreenList.get(i).getVideoInfo() == null) {
                         continue;
                     }
-                    if (mScreenList.get(i).getVideoCellView() != null && !mScreenList.get(i).getVideoInfo().isLocal()){
+                    if (mScreenList.get(i).getCellView() != null && !mScreenList.get(i).getVideoInfo().isLocal()){
 //                        mScreenList.get(i).getVideoCellView().updateCamrea(false);
-                        mScreenList.get(i).getVideoCellView().requestRender();
+                        mScreenList.get(i).getCellView().requestRender();
                         Log.d(TAG, mScreenList.get(i).getVideoInfo().getDataSourceID());
                     }
                 }
@@ -549,17 +558,17 @@ public class MyVideoVIew extends ViewGroup {
         stopRender();
         stopLocalFrameRender();
 
-        for (CellView newViewLayout : mScreenList) {
+        for (com.shgbit.hsuimodule.widget.CellView newViewLayout : mScreenList) {
             newViewLayout.Finalize();
         }
         mScreenList.clear();
         handler.removeCallbacksAndMessages(null);
     }
 
-    public OpenGLTextureView getmLocalVideoCell() {
+    public VideoCellView getmLocalVideoCell() {
         for (int i = 0; i < mScreenList.size(); i++){
             if (mScreenList.get(i).getVideoInfo() != null && mScreenList.get(i).getVideoInfo().isLocal() ){
-                return mScreenList.get(i).getVideoCellView();
+                return mScreenList.get(i).getCellView();
             }
         }
         return null;
@@ -595,7 +604,7 @@ public class MyVideoVIew extends ViewGroup {
         public void run() {
             for (int i = 0; i < mScreenList.size(); i++){
                 if (mScreenList.get(i).getVideoInfo() != null && mScreenList.get(i).getVideoInfo().isLocal()){
-                    mScreenList.get(i).getVideoCellView().requestRender();
+                    mScreenList.get(i).getCellView().requestRender();
                     Log.d(TAG, mScreenList.get(i).getVideoInfo().getDataSourceID());
                     break;
                 }

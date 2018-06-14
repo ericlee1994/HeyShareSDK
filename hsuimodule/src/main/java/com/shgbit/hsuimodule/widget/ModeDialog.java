@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.shgbit.hssdk.sdk.Common;
 import com.shgbit.hsuimodule.R;
 import com.shgbit.hsuimodule.bean.DisplayModeEnum;
 import com.shgbit.hsuimodule.callback.IModeCallBack;
+import com.shgbit.hsuimodule.util.Common;
 
 
 /**

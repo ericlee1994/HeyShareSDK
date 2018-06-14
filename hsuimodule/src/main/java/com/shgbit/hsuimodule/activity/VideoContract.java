@@ -1,6 +1,5 @@
 package com.shgbit.hsuimodule.activity;
 
-import android.provider.MediaStore;
 
 import com.shgbit.hssdk.bean.MemberInfo;
 import com.shgbit.hsuimodule.BasePresenter;
@@ -18,9 +17,16 @@ public interface VideoContract {
     interface View extends BaseView<Presenter> {
         void showDisplayMode(DisplayModeEnum displayModeEnum);
         void hidePopView();
-        void showBottomLayout(ArrayList<MemberInfo> mScreenList, ArrayList<MemberInfo> mOtherList, ArrayList<MemberInfo> mUnjoinedList);
+        void showBottomLayout();
         void onVideoList(ArrayList<VideoInfo> mScreenList, ArrayList<VideoInfo> mOtherList, ArrayList<VideoInfo> mUnjoinedList);
         void showDialog(Object content, VCDialog.DialogType type);
+        void showModeDialog();
+        void updatePopView(ArrayList<MemberInfo> mScreenList, ArrayList<MemberInfo> mOtherList, ArrayList<MemberInfo> mUnjoinedList);
+        void hideBottomLayout();
+        void startRecord(boolean result, String error);
+        void endRecord(boolean result, String error);
+        void getRecordTime(long time);
+        void initRecord(boolean isShow, String status, String meetingId);
         void onFinish();
     }
 
@@ -37,6 +43,14 @@ public interface VideoContract {
         void refuseInvite();
         void getInviteUsers(User[] users);
         void getInviteMeeting();
+        void clickMenuBtn(String type);
+        void clickMenuPerson(MemberInfo memberInfo);
+        void startRecord();
+        void endRecord();
+        void getRecord();
+        void getRecordTime(long time);
+        void startRecordThread();
+        void endRecordThread();
         void hangUp();
         void finish();
     }
